@@ -1,26 +1,42 @@
 "use client";
 
+import { useState } from "react";
 import DropArea from "./DropArea";
 import Item from "./Item";
+import { useRemoveItem } from "../hooks/useRemoveItem";
+import { useAddItem } from "../hooks/useAddItem";
 
-type Items = {
-  title: string;
-  items: string[];
-}[];
+const defaultItems = [
+  { title: "group 1", items: ["1", "2", "3"] },
+  { title: "group 2", items: ["4", "5"] },
+  { title: "group 3", items: ["6"] },
+  { title: "group 4", items: ["7", "8"] },
+];
 
-type MatrixProps = {
-  items: Items;
-  setPositionActiveItem: (index: number | null) => void;
-  setGroupActiveItem: (title: string | null) => void;
-  onDrop: (groupTitle: string, position: number) => void;
-};
+const Matrix = () => {
+  const [items, setItems] = useState(defaultItems);
+  const [positionActiveItem, setPositionActiveItem] = useState<null | number>(
+    null
+  );
+  const [groupActiveItem, setGroupActiveItem] = useState<null | string>(null);
+  const removeItem = useRemoveItem(setItems);
+  const addItem = useAddItem(setItems);
 
-const Matrix = ({
-  items,
-  setPositionActiveItem,
-  setGroupActiveItem,
-  onDrop,
-}: MatrixProps) => {
+  const getItemByGroupAndIndex = (groupName: string, itemIndex: number) => {
+    const group = items.find(({ title }) => title === groupName);
+    return group?.items[itemIndex] ?? "";
+  };
+
+  const onDrop = (nameGroupToMove: string, positionItemToMove: number) => {
+    if (groupActiveItem === null || positionActiveItem === null) return;
+    const itemToMove = getItemByGroupAndIndex(
+      groupActiveItem,
+      positionActiveItem
+    );
+
+    removeItem(groupActiveItem, positionActiveItem);
+    addItem(nameGroupToMove, positionItemToMove, itemToMove);
+  };
   return (
     <div className="drag-and-drop">
       {items.map((groupItems) => (
