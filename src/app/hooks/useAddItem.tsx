@@ -4,11 +4,15 @@ import { Dispatch, SetStateAction } from "react";
 
 type Items = {
   title: string;
-  items: string[];
+  items: { id: string }[];
 }[];
 
 export const useAddItem = (setItems: Dispatch<SetStateAction<Items>>) => {
-  const addItem = (groupTitle: string, index: number, newItem: string) => {
+  const addItem = (
+    groupTitle: string,
+    index: number,
+    newItem: { id: string }
+  ) => {
     setItems((prevItem: Items) => {
       return prevItem.map((group) => {
         if (group.title === groupTitle) {

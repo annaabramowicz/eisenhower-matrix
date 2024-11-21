@@ -7,22 +7,22 @@ import { useAddItem } from "../hooks/useAddItem";
 import { useRemoveItem } from "../hooks/useRemoveItem";
 
 type MatrixContextType = {
-  matrixValues: { title: string; items: string[] }[];
+  matrixItems: { title: string; items: { id: string }[] }[];
   positionActiveItem: null | number;
-  setPositionActiveItem: (index: number) => void;
+  setPositionActiveItem: (index: number | null) => void;
   quarterActiveItem: null | string;
-  setQuarterActiveItem: (quarter: string) => void;
+  setQuarterActiveItem: (quarter: string | null) => void;
 };
 
 const defaultMatrix = [
-  { title: "quarter 1", items: ["1", "2", "3"] },
-  { title: "quarter 2", items: ["4", "5"] },
-  { title: "quarter 3", items: ["6"] },
-  { title: "quarter 4", items: ["7", "8"] },
+  { title: "quarter 1", items: [{ id: "1" }, { id: "2" }, { id: "3" }] },
+  { title: "quarter 2", items: [{ id: "4" }, { id: "5" }] },
+  { title: "quarter 3", items: [{ id: "6" }] },
+  { title: "quarter 4", items: [{ id: "7" }, { id: "8" }] },
 ];
 
 export const MatrixContext = createContext<MatrixContextType>({
-  matrixValues: defaultMatrix,
+  matrixItems: defaultMatrix,
   positionActiveItem: null,
   setPositionActiveItem: () => {},
   quarterActiveItem: null,
@@ -30,19 +30,19 @@ export const MatrixContext = createContext<MatrixContextType>({
 });
 
 const Matrix = () => {
-  const [matrixValues, setMatrixValues] = useState(defaultMatrix);
+  const [matrixItems, setMatrixItems] = useState(defaultMatrix);
   const [positionActiveItem, setPositionActiveItem] = useState<null | number>(
     null
   );
   const [quarterActiveItem, setQuarterActiveItem] = useState<null | string>(
     null
   );
-  const removeItem = useRemoveItem(setMatrixValues);
-  const addItem = useAddItem(setMatrixValues);
+  const removeItem = useRemoveItem(setMatrixItems);
+  const addItem = useAddItem(setMatrixItems);
 
   const getItemByQuarterAndIndex = (quarterName: string, itemIndex: number) => {
-    const quarter = matrixValues.find(({ title }) => title === quarterName);
-    return quarter?.items[itemIndex] ?? "";
+    const quarter = matrixItems.find(({ title }) => title === quarterName);
+    return quarter?.items[itemIndex];
   };
 
   const onDrop = (nameQuarterToMove: string, positionItemToMove: number) => {
@@ -51,6 +51,7 @@ const Matrix = () => {
       quarterActiveItem,
       positionActiveItem
     );
+    if (!itemToMove) return;
 
     removeItem(quarterActiveItem, positionActiveItem);
     addItem(nameQuarterToMove, positionItemToMove, itemToMove);
@@ -58,7 +59,7 @@ const Matrix = () => {
   return (
     <MatrixContext.Provider
       value={{
-        matrixValues,
+        matrixItems,
         positionActiveItem,
         setPositionActiveItem,
         quarterActiveItem,
@@ -66,14 +67,14 @@ const Matrix = () => {
       }}
     >
       <div className="drag-and-drop">
-        {matrixValues.map((quarterItems) => (
+        {matrixItems.map((quarterItems) => (
           <div key={quarterItems.title} className="dnd-group">
             <h2>{quarterItems.title}</h2>
             <DropArea onDrop={() => onDrop(quarterItems.title, 0)} />
             {quarterItems.items.map((item, index) => {
               return (
                 <Item
-                  key={item}
+                  key={item.id}
                   index={index}
                   quarterTitle={quarterItems.title}
                   onDrop={() => onDrop(quarterItems.title, index + 1)}

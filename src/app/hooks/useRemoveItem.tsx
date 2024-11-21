@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction } from "react";
 
 type Items = {
   title: string;
-  items: string[];
+  items: { id: string }[];
 }[];
 
 export const useRemoveItem = (setItems: Dispatch<SetStateAction<Items>>) => {

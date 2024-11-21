@@ -13,10 +13,10 @@ const Item = ({
   quarterTitle: string;
   onDrop: (quarterTitle?: string, position?: number) => void;
 }) => {
-  const { matrixValues, setQuarterActiveItem, setPositionActiveItem } =
+  const { matrixItems, setQuarterActiveItem, setPositionActiveItem } =
     useContext(MatrixContext);
 
-  const matrixQuarter = matrixValues.find(
+  const matrixQuarter = matrixItems.find(
     (quarter) => quarter.title === quarterTitle
   );
   const renderedItem = matrixQuarter?.items[index];
@@ -30,7 +30,7 @@ const Item = ({
         }}
         className="dnd-item"
       >
-        <p>{renderedItem}</p>
+        <p>{renderedItem?.id}</p>
       </div>
       <DropArea onDrop={() => onDrop()} />
     </>
