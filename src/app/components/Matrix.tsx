@@ -1,10 +1,9 @@
 "use client";
 
-import Item from "./Item";
-import DropArea from "./DropArea";
 import { createContext, useState } from "react";
 import { useAddItem } from "../hooks/useAddItem";
 import { useRemoveItem } from "../hooks/useRemoveItem";
+import Quarter from "./Quarter";
 
 type MatrixContextType = {
   matrixItems: { title: string; items: { id: string }[] }[];
@@ -40,12 +39,15 @@ const Matrix = () => {
   const removeItem = useRemoveItem(setMatrixItems);
   const addItem = useAddItem(setMatrixItems);
 
-  const getItemByQuarterAndIndex = (quarterName: string, itemIndex: number) => {
-    const quarter = matrixItems.find(({ title }) => title === quarterName);
+  const getItemByQuarterAndIndex = (
+    quarterTitle: string,
+    itemIndex: number
+  ) => {
+    const quarter = matrixItems.find(({ title }) => title === quarterTitle);
     return quarter?.items[itemIndex];
   };
 
-  const onDrop = (nameQuarterToMove: string, positionItemToMove: number) => {
+  const onDrop = (titleQuarterToMove: string, positionItemToMove: number) => {
     if (quarterActiveItem === null || positionActiveItem === null) return;
     const itemToMove = getItemByQuarterAndIndex(
       quarterActiveItem,
@@ -54,7 +56,7 @@ const Matrix = () => {
     if (!itemToMove) return;
 
     removeItem(quarterActiveItem, positionActiveItem);
-    addItem(nameQuarterToMove, positionItemToMove, itemToMove);
+    addItem(titleQuarterToMove, positionItemToMove, itemToMove);
   };
   return (
     <MatrixContext.Provider
@@ -68,20 +70,11 @@ const Matrix = () => {
     >
       <div className="drag-and-drop">
         {matrixItems.map((quarterItems) => (
-          <div key={quarterItems.title} className="dnd-group">
-            <h2>{quarterItems.title}</h2>
-            <DropArea onDrop={() => onDrop(quarterItems.title, 0)} />
-            {quarterItems.items.map((item, index) => {
-              return (
-                <Item
-                  key={item.id}
-                  index={index}
-                  quarterTitle={quarterItems.title}
-                  onDrop={() => onDrop(quarterItems.title, index + 1)}
-                />
-              );
-            })}
-          </div>
+          <Quarter
+            key={quarterItems.title}
+            quarterItems={quarterItems}
+            onDrop={onDrop}
+          />
         ))}
       </div>
     </MatrixContext.Provider>
