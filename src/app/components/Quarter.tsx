@@ -1,12 +1,8 @@
 import DropArea from "./DropArea";
 import Task from "./Task";
+import { QuarterTasksType } from "../types/matrixTypes";
 
-type quarterTasksType = {
-  quarterTasks: { title: string; tasks: { id: string }[] };
-  onDrop: (titleQuarterToMove: string, positionTaskToMove: number) => void;
-};
-
-const Quarter = ({ quarterTasks, onDrop }: quarterTasksType) => {
+const Quarter = ({ quarterTasks, onDrop }: QuarterTasksType) => {
   return (
     <div key={quarterTasks.title} className="dnd-group">
       <h2>{quarterTasks.title}</h2>

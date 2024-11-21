@@ -1,17 +1,10 @@
 "use client";
 
-import { createContext, useState } from "react";
 import Quarter from "./Quarter";
+import { createContext, useState } from "react";
 import { useRemoveTask } from "../hooks/useRemoveTask";
 import { useAddTask } from "../hooks/useAddTask";
-
-type MatrixContextType = {
-  matrixTasks: { title: string; tasks: { id: string }[] }[];
-  positionActiveTask: null | number;
-  setPositionActiveTask: (index: number | null) => void;
-  quarterActiveTask: null | string;
-  setQuarterActiveTask: (quarter: string | null) => void;
-};
+import { MatrixContextType } from "../types/matrixTypes";
 
 const defaultMatrix = [
   { title: "quarter 1", tasks: [{ id: "1" }, { id: "2" }, { id: "3" }] },
@@ -21,7 +14,7 @@ const defaultMatrix = [
 ];
 
 export const MatrixContext = createContext<MatrixContextType>({
-  matrixTasks: defaultMatrix,
+  quarterTasks: defaultMatrix,
   positionActiveTask: null,
   setPositionActiveTask: () => {},
   quarterActiveTask: null,
@@ -29,21 +22,21 @@ export const MatrixContext = createContext<MatrixContextType>({
 });
 
 const Matrix = () => {
-  const [matrixTasks, setMatrixTasks] = useState(defaultMatrix);
+  const [quarterTasks, setQuarterTasks] = useState(defaultMatrix);
   const [positionActiveTask, setPositionActiveTask] = useState<null | number>(
     null
   );
   const [quarterActiveTask, setQuarterActiveTask] = useState<null | string>(
     null
   );
-  const removeTask = useRemoveTask(setMatrixTasks);
-  const addTask = useAddTask(setMatrixTasks);
+  const removeTask = useRemoveTask(setQuarterTasks);
+  const addTask = useAddTask(setQuarterTasks);
 
   const getTaskByQuarterAndIndex = (
     quarterTitle: string,
     taskIndex: number
   ) => {
-    const quarter = matrixTasks.find(({ title }) => title === quarterTitle);
+    const quarter = quarterTasks.find(({ title }) => title === quarterTitle);
     return quarter?.tasks[taskIndex];
   };
 
@@ -61,7 +54,7 @@ const Matrix = () => {
   return (
     <MatrixContext.Provider
       value={{
-        matrixTasks,
+        quarterTasks,
         positionActiveTask,
         setPositionActiveTask,
         quarterActiveTask,
@@ -69,7 +62,7 @@ const Matrix = () => {
       }}
     >
       <div className="drag-and-drop">
-        {matrixTasks.map((quarterTasks) => (
+        {quarterTasks.map((quarterTasks) => (
           <Quarter
             key={quarterTasks.title}
             quarterTasks={quarterTasks}

@@ -1,22 +1,13 @@
-"use client";
-
-import DropArea from "./DropArea";
 import { useContext } from "react";
 import { MatrixContext } from "./Matrix";
+import { TaskType } from "../types/matrixTypes";
+import DropArea from "./DropArea";
 
-const Task = ({
-  index,
-  quarterTitle,
-  onDrop,
-}: {
-  index: number;
-  quarterTitle: string;
-  onDrop: (quarterTitle?: string, position?: number) => void;
-}) => {
-  const { matrixTasks, setQuarterActiveTask, setPositionActiveTask } =
+const Task = ({ index, quarterTitle, onDrop }: TaskType) => {
+  const { quarterTasks, setQuarterActiveTask, setPositionActiveTask } =
     useContext(MatrixContext);
 
-  const matrixQuarter = matrixTasks.find(
+  const matrixQuarter = quarterTasks.find(
     (quarter) => quarter.title === quarterTitle
   );
   const renderedTask = matrixQuarter?.tasks[index];

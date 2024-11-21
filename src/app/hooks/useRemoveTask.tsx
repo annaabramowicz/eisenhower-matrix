@@ -1,15 +1,11 @@
-"use client";
-
 import { Dispatch, SetStateAction } from "react";
+import { TasksType } from "../types/matrixTypes";
 
-type Tasks = {
-  title: string;
-  tasks: { id: string }[];
-}[];
-
-export const useRemoveTask = (setTasks: Dispatch<SetStateAction<Tasks>>) => {
+export const useRemoveTask = (
+  setTasks: Dispatch<SetStateAction<TasksType>>
+) => {
   const removeTask = (groupActiveTask: string, positionActiveTask: number) => {
-    setTasks((prevTask: Tasks) => {
+    setTasks((prevTask: TasksType) => {
       return prevTask.map((group) => {
         if (group.title === groupActiveTask) {
           return {

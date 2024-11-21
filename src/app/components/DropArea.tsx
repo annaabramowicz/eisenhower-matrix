@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { onDropType } from "../types/matrixTypes";
 
-const DropArea = ({ onDrop }: { onDrop: () => void }) => {
+const DropArea = ({ onDrop }: onDropType) => {
   const [showDrop, setShowDrop] = useState(false);
   return (
     <section
