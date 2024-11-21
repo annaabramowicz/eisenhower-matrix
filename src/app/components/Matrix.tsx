@@ -1,64 +1,89 @@
 "use client";
 
-import { useState } from "react";
-import DropArea from "./DropArea";
 import Item from "./Item";
-import { useRemoveItem } from "../hooks/useRemoveItem";
+import DropArea from "./DropArea";
+import { createContext, useState } from "react";
 import { useAddItem } from "../hooks/useAddItem";
+import { useRemoveItem } from "../hooks/useRemoveItem";
 
-const defaultItems = [
-  { title: "group 1", items: ["1", "2", "3"] },
-  { title: "group 2", items: ["4", "5"] },
-  { title: "group 3", items: ["6"] },
-  { title: "group 4", items: ["7", "8"] },
+type MatrixContextType = {
+  matrixValues: { title: string; items: string[] }[];
+  positionActiveItem: null | number;
+  setPositionActiveItem: (index: number) => void;
+  quarterActiveItem: null | string;
+  setQuarterActiveItem: (quarter: string) => void;
+};
+
+const defaultMatrix = [
+  { title: "quarter 1", items: ["1", "2", "3"] },
+  { title: "quarter 2", items: ["4", "5"] },
+  { title: "quarter 3", items: ["6"] },
+  { title: "quarter 4", items: ["7", "8"] },
 ];
 
+export const MatrixContext = createContext<MatrixContextType>({
+  matrixValues: defaultMatrix,
+  positionActiveItem: null,
+  setPositionActiveItem: () => {},
+  quarterActiveItem: null,
+  setQuarterActiveItem: () => {},
+});
+
 const Matrix = () => {
-  const [items, setItems] = useState(defaultItems);
+  const [matrixValues, setMatrixValues] = useState(defaultMatrix);
   const [positionActiveItem, setPositionActiveItem] = useState<null | number>(
     null
   );
-  const [groupActiveItem, setGroupActiveItem] = useState<null | string>(null);
-  const removeItem = useRemoveItem(setItems);
-  const addItem = useAddItem(setItems);
+  const [quarterActiveItem, setQuarterActiveItem] = useState<null | string>(
+    null
+  );
+  const removeItem = useRemoveItem(setMatrixValues);
+  const addItem = useAddItem(setMatrixValues);
 
-  const getItemByGroupAndIndex = (groupName: string, itemIndex: number) => {
-    const group = items.find(({ title }) => title === groupName);
-    return group?.items[itemIndex] ?? "";
+  const getItemByQuarterAndIndex = (quarterName: string, itemIndex: number) => {
+    const quarter = matrixValues.find(({ title }) => title === quarterName);
+    return quarter?.items[itemIndex] ?? "";
   };
 
-  const onDrop = (nameGroupToMove: string, positionItemToMove: number) => {
-    if (groupActiveItem === null || positionActiveItem === null) return;
-    const itemToMove = getItemByGroupAndIndex(
-      groupActiveItem,
+  const onDrop = (nameQuarterToMove: string, positionItemToMove: number) => {
+    if (quarterActiveItem === null || positionActiveItem === null) return;
+    const itemToMove = getItemByQuarterAndIndex(
+      quarterActiveItem,
       positionActiveItem
     );
 
-    removeItem(groupActiveItem, positionActiveItem);
-    addItem(nameGroupToMove, positionItemToMove, itemToMove);
+    removeItem(quarterActiveItem, positionActiveItem);
+    addItem(nameQuarterToMove, positionItemToMove, itemToMove);
   };
   return (
-    <div className="drag-and-drop">
-      {items.map((groupItems) => (
-        <div key={groupItems.title} className="dnd-group">
-          <h2>{groupItems.title}</h2>
-          <DropArea onDrop={() => onDrop(groupItems.title, 0)} />
-          {groupItems.items.map((item, index) => {
-            return (
-              <Item
-                key={item}
-                item={item}
-                index={index}
-                groupTitle={groupItems.title}
-                setPositionActiveItem={setPositionActiveItem}
-                setGroupActiveItem={setGroupActiveItem}
-                onDrop={() => onDrop(groupItems.title, index + 1)}
-              />
-            );
-          })}
-        </div>
-      ))}
-    </div>
+    <MatrixContext.Provider
+      value={{
+        matrixValues,
+        positionActiveItem,
+        setPositionActiveItem,
+        quarterActiveItem,
+        setQuarterActiveItem,
+      }}
+    >
+      <div className="drag-and-drop">
+        {matrixValues.map((quarterItems) => (
+          <div key={quarterItems.title} className="dnd-group">
+            <h2>{quarterItems.title}</h2>
+            <DropArea onDrop={() => onDrop(quarterItems.title, 0)} />
+            {quarterItems.items.map((item, index) => {
+              return (
+                <Item
+                  key={item}
+                  index={index}
+                  quarterTitle={quarterItems.title}
+                  onDrop={() => onDrop(quarterItems.title, index + 1)}
+                />
+              );
+            })}
+          </div>
+        ))}
+      </div>
+    </MatrixContext.Provider>
   );
 };
 

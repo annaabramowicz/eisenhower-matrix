@@ -1,33 +1,36 @@
 "use client";
 
 import DropArea from "./DropArea";
+import { useContext } from "react";
+import { MatrixContext } from "./Matrix";
 
 const Item = ({
-  item,
   index,
-  groupTitle,
-  setPositionActiveItem,
-  setGroupActiveItem,
+  quarterTitle,
   onDrop,
 }: {
-  item: string;
   index: number;
-  groupTitle: string;
-  setPositionActiveItem: (index: number | null) => void;
-  setGroupActiveItem: (index: string | null) => void;
-  onDrop: (groupTitle?: string, position?: number) => void;
+  quarterTitle: string;
+  onDrop: (quarterTitle?: string, position?: number) => void;
 }) => {
+  const { matrixValues, setQuarterActiveItem, setPositionActiveItem } =
+    useContext(MatrixContext);
+
+  const matrixQuarter = matrixValues.find(
+    (quarter) => quarter.title === quarterTitle
+  );
+  const renderedItem = matrixQuarter?.items[index];
   return (
     <>
       <div
         draggable
         onDragStart={() => {
           setPositionActiveItem(index);
-          setGroupActiveItem(groupTitle);
+          setQuarterActiveItem(quarterTitle);
         }}
         className="dnd-item"
       >
-        <p>{item}</p>
+        <p>{renderedItem}</p>
       </div>
       <DropArea onDrop={() => onDrop()} />
     </>
