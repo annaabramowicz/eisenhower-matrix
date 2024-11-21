@@ -4,7 +4,7 @@ import DropArea from "./DropArea";
 import { useContext } from "react";
 import { MatrixContext } from "./Matrix";
 
-const Item = ({
+const Task = ({
   index,
   quarterTitle,
   onDrop,
@@ -13,27 +13,27 @@ const Item = ({
   quarterTitle: string;
   onDrop: (quarterTitle?: string, position?: number) => void;
 }) => {
-  const { matrixItems, setQuarterActiveItem, setPositionActiveItem } =
+  const { matrixTasks, setQuarterActiveTask, setPositionActiveTask } =
     useContext(MatrixContext);
 
-  const matrixQuarter = matrixItems.find(
+  const matrixQuarter = matrixTasks.find(
     (quarter) => quarter.title === quarterTitle
   );
-  const renderedItem = matrixQuarter?.items[index];
+  const renderedTask = matrixQuarter?.tasks[index];
   return (
     <>
       <div
         draggable
         onDragStart={() => {
-          setPositionActiveItem(index);
-          setQuarterActiveItem(quarterTitle);
+          setPositionActiveTask(index);
+          setQuarterActiveTask(quarterTitle);
         }}
-        className="dnd-item"
+        className="dnd-task"
       >
-        <p>{renderedItem?.id}</p>
+        <p>{renderedTask?.id}</p>
       </div>
       <DropArea onDrop={() => onDrop()} />
     </>
   );
 };
-export default Item;
+export default Task;

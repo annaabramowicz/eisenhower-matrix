@@ -1,23 +1,23 @@
 import DropArea from "./DropArea";
-import Item from "./Item";
+import Task from "./Task";
 
-type quarterItemsType = {
-  quarterItems: { title: string; items: { id: string }[] };
-  onDrop: (titleQuarterToMove: string, positionItemToMove: number) => void;
+type quarterTasksType = {
+  quarterTasks: { title: string; tasks: { id: string }[] };
+  onDrop: (titleQuarterToMove: string, positionTaskToMove: number) => void;
 };
 
-const Quarter = ({ quarterItems, onDrop }: quarterItemsType) => {
+const Quarter = ({ quarterTasks, onDrop }: quarterTasksType) => {
   return (
-    <div key={quarterItems.title} className="dnd-group">
-      <h2>{quarterItems.title}</h2>
-      <DropArea onDrop={() => onDrop(quarterItems.title, 0)} />
-      {quarterItems.items.map((item, index) => {
+    <div key={quarterTasks.title} className="dnd-group">
+      <h2>{quarterTasks.title}</h2>
+      <DropArea onDrop={() => onDrop(quarterTasks.title, 0)} />
+      {quarterTasks.tasks.map((task, index) => {
         return (
-          <Item
-            key={item.id}
+          <Task
+            key={task.id}
             index={index}
-            quarterTitle={quarterItems.title}
-            onDrop={() => onDrop(quarterItems.title, index + 1)}
+            quarterTitle={quarterTasks.title}
+            onDrop={() => onDrop(quarterTasks.title, index + 1)}
           />
         );
       })}

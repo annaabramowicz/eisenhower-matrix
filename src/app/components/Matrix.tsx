@@ -1,78 +1,78 @@
 "use client";
 
 import { createContext, useState } from "react";
-import { useAddItem } from "../hooks/useAddItem";
-import { useRemoveItem } from "../hooks/useRemoveItem";
 import Quarter from "./Quarter";
+import { useRemoveTask } from "../hooks/useRemoveTask";
+import { useAddTask } from "../hooks/useAddTask";
 
 type MatrixContextType = {
-  matrixItems: { title: string; items: { id: string }[] }[];
-  positionActiveItem: null | number;
-  setPositionActiveItem: (index: number | null) => void;
-  quarterActiveItem: null | string;
-  setQuarterActiveItem: (quarter: string | null) => void;
+  matrixTasks: { title: string; tasks: { id: string }[] }[];
+  positionActiveTask: null | number;
+  setPositionActiveTask: (index: number | null) => void;
+  quarterActiveTask: null | string;
+  setQuarterActiveTask: (quarter: string | null) => void;
 };
 
 const defaultMatrix = [
-  { title: "quarter 1", items: [{ id: "1" }, { id: "2" }, { id: "3" }] },
-  { title: "quarter 2", items: [{ id: "4" }, { id: "5" }] },
-  { title: "quarter 3", items: [{ id: "6" }] },
-  { title: "quarter 4", items: [{ id: "7" }, { id: "8" }] },
+  { title: "quarter 1", tasks: [{ id: "1" }, { id: "2" }, { id: "3" }] },
+  { title: "quarter 2", tasks: [{ id: "4" }, { id: "5" }] },
+  { title: "quarter 3", tasks: [{ id: "6" }] },
+  { title: "quarter 4", tasks: [{ id: "7" }, { id: "8" }] },
 ];
 
 export const MatrixContext = createContext<MatrixContextType>({
-  matrixItems: defaultMatrix,
-  positionActiveItem: null,
-  setPositionActiveItem: () => {},
-  quarterActiveItem: null,
-  setQuarterActiveItem: () => {},
+  matrixTasks: defaultMatrix,
+  positionActiveTask: null,
+  setPositionActiveTask: () => {},
+  quarterActiveTask: null,
+  setQuarterActiveTask: () => {},
 });
 
 const Matrix = () => {
-  const [matrixItems, setMatrixItems] = useState(defaultMatrix);
-  const [positionActiveItem, setPositionActiveItem] = useState<null | number>(
+  const [matrixTasks, setMatrixTasks] = useState(defaultMatrix);
+  const [positionActiveTask, setPositionActiveTask] = useState<null | number>(
     null
   );
-  const [quarterActiveItem, setQuarterActiveItem] = useState<null | string>(
+  const [quarterActiveTask, setQuarterActiveTask] = useState<null | string>(
     null
   );
-  const removeItem = useRemoveItem(setMatrixItems);
-  const addItem = useAddItem(setMatrixItems);
+  const removeTask = useRemoveTask(setMatrixTasks);
+  const addTask = useAddTask(setMatrixTasks);
 
-  const getItemByQuarterAndIndex = (
+  const getTaskByQuarterAndIndex = (
     quarterTitle: string,
-    itemIndex: number
+    taskIndex: number
   ) => {
-    const quarter = matrixItems.find(({ title }) => title === quarterTitle);
-    return quarter?.items[itemIndex];
+    const quarter = matrixTasks.find(({ title }) => title === quarterTitle);
+    return quarter?.tasks[taskIndex];
   };
 
-  const onDrop = (titleQuarterToMove: string, positionItemToMove: number) => {
-    if (quarterActiveItem === null || positionActiveItem === null) return;
-    const itemToMove = getItemByQuarterAndIndex(
-      quarterActiveItem,
-      positionActiveItem
+  const onDrop = (titleQuarterToMove: string, positionTaskToMove: number) => {
+    if (quarterActiveTask === null || positionActiveTask === null) return;
+    const taskToMove = getTaskByQuarterAndIndex(
+      quarterActiveTask,
+      positionActiveTask
     );
-    if (!itemToMove) return;
+    if (!taskToMove) return;
 
-    removeItem(quarterActiveItem, positionActiveItem);
-    addItem(titleQuarterToMove, positionItemToMove, itemToMove);
+    removeTask(quarterActiveTask, positionActiveTask);
+    addTask(titleQuarterToMove, positionTaskToMove, taskToMove);
   };
   return (
     <MatrixContext.Provider
       value={{
-        matrixItems,
-        positionActiveItem,
-        setPositionActiveItem,
-        quarterActiveItem,
-        setQuarterActiveItem,
+        matrixTasks,
+        positionActiveTask,
+        setPositionActiveTask,
+        quarterActiveTask,
+        setQuarterActiveTask,
       }}
     >
       <div className="drag-and-drop">
-        {matrixItems.map((quarterItems) => (
+        {matrixTasks.map((quarterTasks) => (
           <Quarter
-            key={quarterItems.title}
-            quarterItems={quarterItems}
+            key={quarterTasks.title}
+            quarterTasks={quarterTasks}
             onDrop={onDrop}
           />
         ))}
