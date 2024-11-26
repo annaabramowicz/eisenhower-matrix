@@ -2,16 +2,8 @@
 
 import Quarter from "./Quarter";
 import { createContext, useState } from "react";
-import { useRemoveTask } from "../hooks/useRemoveTask";
-import { useAddTask } from "../hooks/useAddTask";
 import { MatrixContextType } from "../types/matrixTypes";
-
-const defaultMatrix = [
-  { title: "quarter 1", tasks: [{ id: "1" }, { id: "2" }, { id: "3" }] },
-  { title: "quarter 2", tasks: [{ id: "4" }, { id: "5" }] },
-  { title: "quarter 3", tasks: [{ id: "6" }] },
-  { title: "quarter 4", tasks: [{ id: "7" }, { id: "8" }] },
-];
+import { useEisenhowerMatrix } from "../hooks/useEisenhowerMatrix";
 
 export const MatrixContext = createContext<MatrixContextType>({
   quarterTasks: defaultMatrix,
@@ -22,15 +14,14 @@ export const MatrixContext = createContext<MatrixContextType>({
 });
 
 const Matrix = () => {
-  const [quarterTasks, setQuarterTasks] = useState(defaultMatrix);
+  const { quarterTasks, addTask, removeTask } = useEisenhowerMatrix();
+
   const [positionActiveTask, setPositionActiveTask] = useState<null | number>(
     null
   );
   const [quarterActiveTask, setQuarterActiveTask] = useState<null | string>(
     null
   );
-  const removeTask = useRemoveTask(setQuarterTasks);
-  const addTask = useAddTask(setQuarterTasks);
 
   const getTaskByQuarterAndIndex = (
     quarterTitle: string,
