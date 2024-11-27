@@ -7,13 +7,13 @@ const Quarter = ({ quarterTasks, onDrop }: QuarterTasksType) => {
     <div key={quarterTasks.title} className="dnd-group">
       <h2>{quarterTasks.title}</h2>
       <DropArea onDrop={() => onDrop(quarterTasks.title, 0)} />
-      {quarterTasks.tasks.map((task, index) => {
+      {quarterTasks.tasks.map((task, positionTaskToMove) => {
         return (
           <Task
             key={task.id}
-            index={index}
+            positionTaskToMove={positionTaskToMove}
             quarterTitle={quarterTasks.title}
-            onDrop={() => onDrop(quarterTasks.title, index + 1)}
+            onDrop={() => onDrop(quarterTasks.title, positionTaskToMove + 1)}
           />
         );
       })}

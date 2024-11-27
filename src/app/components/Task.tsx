@@ -1,22 +1,22 @@
 import { useContext } from "react";
-import { MatrixContext } from "./Matrix";
 import { TaskType } from "../types/matrixTypes";
 import DropArea from "./DropArea";
+import { MatrixContext } from "../context/matrixContext";
 
-const Task = ({ index, quarterTitle, onDrop }: TaskType) => {
-  const { quarterTasks, setQuarterActiveTask, setPositionActiveTask } =
+const Task = ({ positionTaskToMove, quarterTitle, onDrop }: TaskType) => {
+  const { matrix, setQuarterActiveTask, setPositionActiveTask } =
     useContext(MatrixContext);
 
-  const matrixQuarter = quarterTasks.find(
+  const matrixQuarter = matrix.find(
     (quarter) => quarter.title === quarterTitle
   );
-  const renderedTask = matrixQuarter?.tasks[index];
+  const renderedTask = matrixQuarter?.tasks[positionTaskToMove];
   return (
     <>
       <div
         draggable
         onDragStart={() => {
-          setPositionActiveTask(index);
+          setPositionActiveTask(positionTaskToMove);
           setQuarterActiveTask(quarterTitle);
         }}
         className="dnd-task"

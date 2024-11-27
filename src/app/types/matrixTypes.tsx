@@ -1,13 +1,13 @@
 type Task = { id: string };
 
-type Quarter = { title: string; tasks: Task[] };
+export type Quarter = { title: string; tasks: Task[] };
 
 export type TasksType = Quarter[];
 
-export type onDropType = { onDrop: () => void };
+export type OnDropType = { onDrop: () => void };
 
 export type TaskType = {
-  index: number;
+  positionTaskToMove: number;
   quarterTitle: string;
   onDrop: (quarterTitle?: string, position?: number) => void;
 };
@@ -18,7 +18,8 @@ export type QuarterTasksType = {
 };
 
 export type MatrixContextType = {
-  quarterTasks: Quarter[];
+  matrix: Quarter[];
+  setMatrix: React.Dispatch<React.SetStateAction<Quarter[]>>;
   positionActiveTask: null | number;
   setPositionActiveTask: (index: number | null) => void;
   quarterActiveTask: null | string;

@@ -1,33 +1,20 @@
 "use client";
 
 import Quarter from "./Quarter";
-import { createContext, useState } from "react";
-import { MatrixContextType } from "../types/matrixTypes";
-import { useEisenhowerMatrix } from "../hooks/useEisenhowerMatrix";
-
-export const MatrixContext = createContext<MatrixContextType>({
-  quarterTasks: defaultMatrix,
-  positionActiveTask: null,
-  setPositionActiveTask: () => {},
-  quarterActiveTask: null,
-  setQuarterActiveTask: () => {},
-});
+import { MatrixContext, MatrixContextProvider } from "../context/matrixContext";
+import { useAddTask } from "../hooks/useAddTask";
+import { useContext } from "react";
 
 const Matrix = () => {
-  const { quarterTasks, addTask, removeTask } = useEisenhowerMatrix();
-
-  const [positionActiveTask, setPositionActiveTask] = useState<null | number>(
-    null
-  );
-  const [quarterActiveTask, setQuarterActiveTask] = useState<null | string>(
-    null
-  );
+  const { matrix, positionActiveTask, quarterActiveTask } =
+    useContext(MatrixContext);
+  const { addTask } = useAddTask();
 
   const getTaskByQuarterAndIndex = (
     quarterTitle: string,
     taskIndex: number
   ) => {
-    const quarter = quarterTasks.find(({ title }) => title === quarterTitle);
+    const quarter = matrix.find(({ title }) => title === quarterTitle);
     return quarter?.tasks[taskIndex];
   };
 
@@ -39,21 +26,13 @@ const Matrix = () => {
     );
     if (!taskToMove) return;
 
-    removeTask(quarterActiveTask, positionActiveTask);
+    // removeTask(quarterActiveTask, positionActiveTask);
     addTask(titleQuarterToMove, positionTaskToMove, taskToMove);
   };
   return (
-    <MatrixContext.Provider
-      value={{
-        quarterTasks,
-        positionActiveTask,
-        setPositionActiveTask,
-        quarterActiveTask,
-        setQuarterActiveTask,
-      }}
-    >
+    <MatrixContextProvider>
       <div className="drag-and-drop">
-        {quarterTasks.map((quarterTasks) => (
+        {matrix.map((quarterTasks) => (
           <Quarter
             key={quarterTasks.title}
             quarterTasks={quarterTasks}
@@ -61,7 +40,7 @@ const Matrix = () => {
           />
         ))}
       </div>
-    </MatrixContext.Provider>
+    </MatrixContextProvider>
   );
 };
 
