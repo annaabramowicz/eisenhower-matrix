@@ -1,7 +1,5 @@
-"use client";
-
 import Quarter from "./Quarter";
-import { MatrixContext, MatrixContextProvider } from "../context/matrixContext";
+import { MatrixContext } from "../context/matrixContext";
 import { useAddTask } from "../hooks/useAddTask";
 import { useContext } from "react";
 
@@ -30,17 +28,15 @@ const Matrix = () => {
     addTask(titleQuarterToMove, positionTaskToMove, taskToMove);
   };
   return (
-    <MatrixContextProvider>
-      <div className="drag-and-drop">
-        {matrix.map((quarterTasks) => (
-          <Quarter
-            key={quarterTasks.title}
-            quarterTasks={quarterTasks}
-            onDrop={onDrop}
-          />
-        ))}
-      </div>
-    </MatrixContextProvider>
+    <div className="drag-and-drop">
+      {matrix.map((quarterTasks) => (
+        <Quarter
+          key={quarterTasks.title}
+          quarterTasks={quarterTasks}
+          onDrop={onDrop}
+        />
+      ))}
+    </div>
   );
 };
 

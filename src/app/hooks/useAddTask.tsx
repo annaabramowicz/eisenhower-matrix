@@ -18,7 +18,6 @@ export const useAddTask = () => {
       }
       return quarter;
     });
-    console.log("🚀 ~ updatedMatrix ~ updatedMatrix:", updatedMatrix);
     setMatrix(updatedMatrix);
   };
 
