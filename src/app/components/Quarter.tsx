@@ -15,9 +15,6 @@ const Quarter = ({ quarterTasks }: QuarterTasksType) => {
             key={task.id}
             positionTaskToMove={positionTaskToMove}
             quarterTitle={quarterTasks.title}
-            onDrop={() => {
-              onDrop(quarterTasks.title, positionTaskToMove + 1);
-            }}
           />
         );
       })}

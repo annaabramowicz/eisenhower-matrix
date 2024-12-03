@@ -9,7 +9,6 @@ export type OnDropType = { onDrop: () => void };
 export type TaskType = {
   positionTaskToMove: number;
   quarterTitle: string;
-  onDrop: (quarterTitle?: string, position?: number) => void;
 };
 
 export type QuarterTasksType = {
