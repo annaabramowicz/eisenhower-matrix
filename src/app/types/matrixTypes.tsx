@@ -14,7 +14,6 @@ export type TaskType = {
 
 export type QuarterTasksType = {
   quarterTasks: Quarter;
-  onDrop: (titleQuarterToMove: string, positionTaskToMove: number) => void;
 };
 
 export type MatrixContextType = {

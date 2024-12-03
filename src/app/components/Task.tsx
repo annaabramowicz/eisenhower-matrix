@@ -1,11 +1,10 @@
-import { useContext } from "react";
 import { TaskType } from "../types/matrixTypes";
 import DropArea from "./DropArea";
-import { MatrixContext } from "../context/matrixContext";
+import { useMatrixContext } from "../context/matrixContext";
 
 const Task = ({ positionTaskToMove, quarterTitle, onDrop }: TaskType) => {
   const { matrix, setQuarterActiveTask, setPositionActiveTask } =
-    useContext(MatrixContext);
+    useMatrixContext();
 
   const matrixQuarter = matrix.find(
     (quarter) => quarter.title === quarterTitle

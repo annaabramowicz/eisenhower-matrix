@@ -1,8 +1,10 @@
 import DropArea from "./DropArea";
 import Task from "./Task";
 import { QuarterTasksType } from "../types/matrixTypes";
+import { useMatrix } from "../hooks/useMatrix";
 
-const Quarter = ({ quarterTasks, onDrop }: QuarterTasksType) => {
+const Quarter = ({ quarterTasks }: QuarterTasksType) => {
+  const { onDrop } = useMatrix();
   return (
     <div key={quarterTasks.title} className="dnd-group">
       <h2>{quarterTasks.title}</h2>

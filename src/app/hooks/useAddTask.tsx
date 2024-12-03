@@ -1,9 +1,8 @@
-import { useContext } from "react";
-import { MatrixContext } from "../context/matrixContext";
+import { useMatrixContext } from "../context/matrixContext";
 import { Quarter } from "../types/matrixTypes";
 
 export const useAddTask = () => {
-  const { matrix, setMatrix } = useContext(MatrixContext);
+  const { matrix, setMatrix } = useMatrixContext();
 
   const addTask = (
     quarterTitle: string,

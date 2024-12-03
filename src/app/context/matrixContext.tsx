@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 import { MatrixContextType } from "../types/matrixTypes";
 
 type MatrixContextProvider = {
@@ -12,14 +12,7 @@ const defaultMatrix = [
   { title: "quarter 4", tasks: [{ id: "7" }, { id: "8" }] },
 ];
 
-export const MatrixContext = createContext<MatrixContextType>({
-  matrix: defaultMatrix,
-  setMatrix: () => {},
-  positionActiveTask: null,
-  setPositionActiveTask: () => {},
-  quarterActiveTask: null,
-  setQuarterActiveTask: () => {},
-});
+export const MatrixContext = createContext<MatrixContextType | null>(null);
 
 export const MatrixContextProvider = ({ children }: MatrixContextProvider) => {
   const [matrix, setMatrix] = useState(defaultMatrix);
@@ -34,14 +27,21 @@ export const MatrixContextProvider = ({ children }: MatrixContextProvider) => {
     <MatrixContext.Provider
       value={{
         matrix,
-        setMatrix,
         positionActiveTask,
-        setPositionActiveTask,
         quarterActiveTask,
+        setMatrix,
+        setPositionActiveTask,
         setQuarterActiveTask,
       }}
     >
       {children}
     </MatrixContext.Provider>
   );
+};
+
+export const useMatrixContext = () => {
+  const context = useContext(MatrixContext);
+  if (!context)
+    throw new Error("useMatrixContext called outside of the matrix provider");
+  return context;
 };
