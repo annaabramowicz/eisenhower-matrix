@@ -3,8 +3,7 @@ import DropArea from "./DropArea";
 import { useMatrixContext } from "../context/matrixContext";
 
 const Task = ({ positionTaskToMove, quarterTitle, onDrop }: TaskType) => {
-  const { matrix, setQuarterActiveTask, setPositionActiveTask } =
-    useMatrixContext();
+  const { matrix, setActiveTask } = useMatrixContext();
 
   const matrixQuarter = matrix.find(
     (quarter) => quarter.title === quarterTitle
@@ -15,8 +14,10 @@ const Task = ({ positionTaskToMove, quarterTitle, onDrop }: TaskType) => {
       <div
         draggable
         onDragStart={() => {
-          setPositionActiveTask(positionTaskToMove);
-          setQuarterActiveTask(quarterTitle);
+          setActiveTask({
+            positionActiveTask: positionTaskToMove,
+            quarterActiveTask: quarterTitle,
+          });
         }}
         className="dnd-task"
       >

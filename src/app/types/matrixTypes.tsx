@@ -19,8 +19,14 @@ export type QuarterTasksType = {
 export type MatrixContextType = {
   matrix: Quarter[];
   setMatrix: React.Dispatch<React.SetStateAction<Quarter[]>>;
-  positionActiveTask: null | number;
-  setPositionActiveTask: (index: number | null) => void;
-  quarterActiveTask: null | string;
-  setQuarterActiveTask: (quarter: string | null) => void;
+  activeTask: {
+    positionActiveTask: null | number;
+    quarterActiveTask: null | string;
+  };
+  setActiveTask: React.Dispatch<
+    React.SetStateAction<{
+      positionActiveTask: null | number;
+      quarterActiveTask: null | string;
+    }>
+  >;
 };

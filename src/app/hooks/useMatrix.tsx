@@ -2,7 +2,7 @@ import { useMatrixContext } from "../context/matrixContext";
 import { useAddTask } from "./useAddTask";
 
 export const useMatrix = () => {
-  const { matrix, positionActiveTask, quarterActiveTask } = useMatrixContext();
+  const { matrix, activeTask } = useMatrixContext();
   const { addTask } = useAddTask();
 
   const getTaskByQuarterAndIndex = (
@@ -14,10 +14,14 @@ export const useMatrix = () => {
   };
 
   const onDrop = (titleQuarterToMove: string, positionTaskToMove: number) => {
-    if (quarterActiveTask === null || positionActiveTask === null) return;
+    if (
+      activeTask.quarterActiveTask === null ||
+      activeTask.positionActiveTask === null
+    )
+      return;
     const taskToMove = getTaskByQuarterAndIndex(
-      quarterActiveTask,
-      positionActiveTask
+      activeTask.quarterActiveTask,
+      activeTask.positionActiveTask
     );
     if (!taskToMove) return;
 

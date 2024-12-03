@@ -12,26 +12,26 @@ const defaultMatrix = [
   { title: "quarter 4", tasks: [{ id: "7" }, { id: "8" }] },
 ];
 
-export const MatrixContext = createContext<MatrixContextType | null>(null);
+const MatrixContext = createContext<MatrixContextType | null>(null);
 
 export const MatrixContextProvider = ({ children }: MatrixContextProvider) => {
   const [matrix, setMatrix] = useState(defaultMatrix);
-  const [positionActiveTask, setPositionActiveTask] = useState<null | number>(
-    null
-  );
-  const [quarterActiveTask, setQuarterActiveTask] = useState<null | string>(
-    null
-  );
+
+  const [activeTask, setActiveTask] = useState<{
+    positionActiveTask: null | number;
+    quarterActiveTask: null | string;
+  }>({
+    positionActiveTask: null,
+    quarterActiveTask: null,
+  });
 
   return (
     <MatrixContext.Provider
       value={{
         matrix,
-        positionActiveTask,
-        quarterActiveTask,
+        activeTask,
         setMatrix,
-        setPositionActiveTask,
-        setQuarterActiveTask,
+        setActiveTask,
       }}
     >
       {children}
