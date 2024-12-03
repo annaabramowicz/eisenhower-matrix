@@ -1,9 +1,11 @@
 import { useMatrixContext } from "../context/matrixContext";
 import { useAddTask } from "./useAddTask";
+import { useRemoveTask } from "./useRemoveTask";
 
 export const useMatrix = () => {
   const { matrix, activeTask } = useMatrixContext();
   const { addTask } = useAddTask();
+  const { removeTask } = useRemoveTask();
 
   const getTaskByQuarterAndIndex = (
     quarterTitle: string,
@@ -25,7 +27,7 @@ export const useMatrix = () => {
     );
     if (!taskToMove) return;
 
-    // removeTask(quarterActiveTask, positionActiveTask);
+    removeTask(activeTask.quarterActiveTask, activeTask.positionActiveTask);
     addTask(titleQuarterToMove, positionTaskToMove, taskToMove);
   };
   return { onDrop };

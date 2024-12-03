@@ -2,8 +2,6 @@ type Task = { id: string };
 
 export type Quarter = { title: string; tasks: Task[] };
 
-export type TasksType = Quarter[];
-
 export type OnDropType = { onDrop: () => void };
 
 export type TaskType = {

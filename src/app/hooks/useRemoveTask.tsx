@@ -1,13 +1,15 @@
-import { Dispatch, SetStateAction } from "react";
-import { TasksType } from "../types/matrixTypes";
+import { useMatrixContext } from "../context/matrixContext";
 
-export const useRemoveTask = (
-  setTasks: Dispatch<SetStateAction<TasksType>>
-) => {
-  const removeTask = (groupActiveTask: string, positionActiveTask: number) => {
-    setTasks((prevTask: TasksType) => {
-      return prevTask.map((group) => {
-        if (group.title === groupActiveTask) {
+export const useRemoveTask = () => {
+  const { setMatrix } = useMatrixContext();
+
+  const removeTask = (
+    quarterActiveTask: string,
+    positionActiveTask: number
+  ) => {
+    setMatrix((prevMatrix) => {
+      return prevMatrix.map((group) => {
+        if (group.title === quarterActiveTask) {
           return {
             ...group,
             tasks: group.tasks.filter(
@@ -19,5 +21,6 @@ export const useRemoveTask = (
       });
     });
   };
-  return removeTask;
+
+  return { removeTask };
 };
