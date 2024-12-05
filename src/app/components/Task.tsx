@@ -23,10 +23,13 @@ const Task = ({ positionTaskToMove, quarterTitle }: TaskType) => {
             quarterActiveTask: quarterTitle,
           });
         }}
-        className="dnd-task"
+        className="p-4 bg-orange-100 "
       >
         <p>{renderedTask?.id}</p>
-        <button onClick={() => removeTask(quarterTitle, positionTaskToMove)}>
+        <button
+          className="btn btn-outline border-s-stone-100"
+          onClick={() => removeTask(quarterTitle, positionTaskToMove)}
+        >
           delete
         </button>
       </div>

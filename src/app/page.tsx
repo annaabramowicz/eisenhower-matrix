@@ -5,7 +5,7 @@ import { MatrixContextProvider } from "./context/matrixContext";
 
 export default function Home() {
   return (
-    <div className="App">
+    <div className="h-full flex">
       <MatrixContextProvider>
         <Matrix />
       </MatrixContextProvider>
