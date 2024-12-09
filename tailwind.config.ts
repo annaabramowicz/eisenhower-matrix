@@ -10,7 +10,7 @@ export default {
   ],
 
   daisyui: {
-    themes: ["retro"],
+    themes: ["retro", "dracula"],
     darkTheme: "dracula",
   },
   plugins: [typography, daisyui],
