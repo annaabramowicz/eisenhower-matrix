@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-#root {
-  text-align: center;
-  background-color: #242424;
-  height: 100vh;
-  color: rgba(255, 255, 255, 0.87);
+.btn {
+  @apply rounded-full;
 }

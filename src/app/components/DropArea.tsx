@@ -12,9 +12,7 @@ const DropArea = ({ onDrop }: OnDropType) => {
         setShowDrop(false);
       }}
       onDragOver={(e) => e.preventDefault()}
-      className={
-        showDrop ? "p-4 bg-rose-200 transition-all	ease-in-out" : "opacity-0"
-      }
+      className={showDrop ? "p-4   transition-all	ease-in-out" : "opacity-0"}
     >
       Drop Here
     </section>

@@ -6,10 +6,10 @@ type MatrixContextProvider = {
 };
 
 const defaultMatrix = [
-  { title: "quarter 1", tasks: [{ id: "1" }, { id: "2" }, { id: "3" }] },
-  { title: "quarter 2", tasks: [{ id: "4" }, { id: "5" }] },
-  { title: "quarter 3", tasks: [{ id: "6" }] },
-  { title: "quarter 4", tasks: [{ id: "7" }, { id: "8" }] },
+  { title: "DO", tasks: [{ id: "1" }, { id: "2" }, { id: "3" }] },
+  { title: "DECIDE", tasks: [{ id: "4" }, { id: "5" }] },
+  { title: "DELEGATE", tasks: [{ id: "6" }] },
+  { title: "DELETE", tasks: [{ id: "7" }, { id: "8" }] },
 ];
 
 const MatrixContext = createContext<MatrixContextType | null>(null);

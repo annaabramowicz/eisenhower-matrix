@@ -15,7 +15,7 @@ export const useMatrix = () => {
     return quarter?.tasks[taskIndex];
   };
 
-  const onDrop = (titleQuarterToMove: string, positionTaskToMove: number) => {
+  const moveTask = (titleQuarterToMove: string, positionTaskToMove: number) => {
     if (
       activeTask.quarterActiveTask === null ||
       activeTask.positionActiveTask === null
@@ -30,5 +30,5 @@ export const useMatrix = () => {
     removeTask(activeTask.quarterActiveTask, activeTask.positionActiveTask);
     addTask(titleQuarterToMove, positionTaskToMove, taskToMove);
   };
-  return { onDrop };
+  return { moveTask };
 };

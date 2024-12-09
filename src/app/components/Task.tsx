@@ -6,7 +6,7 @@ import { useRemoveTask } from "../hooks/useRemoveTask";
 
 const Task = ({ positionTaskToMove, quarterTitle }: TaskType) => {
   const { matrix, setActiveTask } = useMatrixContext();
-  const { onDrop } = useMatrix();
+  const { moveTask } = useMatrix();
   const { removeTask } = useRemoveTask();
 
   const matrixQuarter = matrix.find(
@@ -23,17 +23,17 @@ const Task = ({ positionTaskToMove, quarterTitle }: TaskType) => {
             quarterActiveTask: quarterTitle,
           });
         }}
-        className="p-4 bg-orange-100 "
+        className="p-4 alert"
       >
         <p>{renderedTask?.id}</p>
         <button
-          className="btn btn-outline border-s-stone-100"
+          className="btn "
           onClick={() => removeTask(quarterTitle, positionTaskToMove)}
         >
           delete
         </button>
       </div>
-      <DropArea onDrop={() => onDrop(quarterTitle, positionTaskToMove + 1)} />
+      <DropArea onDrop={() => moveTask(quarterTitle, positionTaskToMove + 1)} />
     </>
   );
 };

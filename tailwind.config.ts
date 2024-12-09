@@ -1,3 +1,4 @@
+import typography from "@tailwindcss/typography";
 import type { Config } from "tailwindcss";
 import daisyui from "daisyui";
 
@@ -9,7 +10,8 @@ export default {
   ],
 
   daisyui: {
-    themes: ["light", "dark", "dim"],
+    themes: ["retro"],
+    darkTheme: "dracula",
   },
-  plugins: [daisyui],
+  plugins: [typography, daisyui],
 } satisfies Config;
