@@ -13,9 +13,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className="overflow-hidden">
         <label className="swap swap-rotate flex justify-end mt-5">
-          <input type="checkbox" className="theme-controller" value="retro" />
+          <input
+            type="checkbox"
+            className="theme-controller"
+            value="lemonade"
+          />
 
           <svg
             className="swap-off h-10 w-10 fill-current"

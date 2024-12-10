@@ -10,8 +10,8 @@ export default {
   ],
 
   daisyui: {
-    themes: ["retro", "dracula"],
-    darkTheme: "dracula",
+    themes: ["lemonade", "dim"],
+    darkTheme: "dim",
   },
   plugins: [typography, daisyui],
 } satisfies Config;

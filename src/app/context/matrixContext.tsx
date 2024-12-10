@@ -6,8 +6,8 @@ type MatrixContextProvider = {
 };
 
 const defaultMatrix = [
-  { title: "DO", tasks: [{ id: "1" }, { id: "2" }, { id: "3" }] },
-  { title: "DECIDE", tasks: [{ id: "4" }, { id: "5" }] },
+  { title: "DO FIRST", tasks: [{ id: "1" }, { id: "2" }, { id: "3" }] },
+  { title: "SCHEDULE", tasks: [{ id: "4" }, { id: "5" }] },
   { title: "DELEGATE", tasks: [{ id: "6" }] },
   { title: "DELETE", tasks: [{ id: "7" }, { id: "8" }] },
 ];

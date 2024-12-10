@@ -23,14 +23,28 @@ const Task = ({ positionTaskToMove, quarterTitle }: TaskType) => {
             quarterActiveTask: quarterTitle,
           });
         }}
-        className="p-4 alert"
+        className="px-3 py-0 alert rounded-md justify-items-end"
       >
-        <p>{renderedTask?.id}</p>
+        <p className="px-2">{renderedTask?.id}</p>
+
         <button
-          className="btn "
+          className="btn btn-circle"
           onClick={() => removeTask(quarterTitle, positionTaskToMove)}
         >
-          delete
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
         </button>
       </div>
       <DropArea onDrop={() => moveTask(quarterTitle, positionTaskToMove + 1)} />
