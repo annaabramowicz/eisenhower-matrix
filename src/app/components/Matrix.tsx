@@ -5,7 +5,7 @@ const Matrix = () => {
   const { matrix } = useMatrixContext();
 
   return (
-    <div className="grid grid-cols-2 grid-rows-2 h-[80vh] w-4/5 m-auto gap-2">
+    <div className="grid grid-cols-2 grid-rows-2 h-full w-full m-auto gap-2">
       {matrix.map((quarterTasks) => (
         <Quarter key={quarterTasks.title} quarterTasks={quarterTasks} />
       ))}
