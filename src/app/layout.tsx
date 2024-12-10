@@ -12,9 +12,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" style={{ scrollbarGutter: "unset" }}>
       <body className="overflow-hidden">
-        <label className="swap swap-rotate flex justify-end mt-5">
+        <div className="flex items-center justify-center h-[10vh] w-screen prose mx-auto my-0">
+          <h1>EISENHOWER MATRIX</h1>
+        </div>
+        <label className="swap swap-rotate flex absolute top-3 right-3">
           <input
             type="checkbox"
             className="theme-controller"
