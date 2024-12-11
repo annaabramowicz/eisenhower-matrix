@@ -15,7 +15,10 @@ export const useMatrix = () => {
     return quarter?.tasks[taskIndex];
   };
 
-  const moveTask = (titleQuarterToMove: string, positionTaskToMove: number) => {
+  const moveTask = (
+    titleQuarterToMove: string,
+    positionTaskToMove?: number
+  ) => {
     if (
       activeTask.quarterActiveTask === null ||
       activeTask.positionActiveTask === null
@@ -27,8 +30,15 @@ export const useMatrix = () => {
     );
     if (!taskToMove) return;
 
+    const quarterToMove = matrix.find(
+      ({ title }) => title === titleQuarterToMove
+    );
+
+    const calculatedPosition =
+      positionTaskToMove ?? quarterToMove?.tasks.length ?? 0;
+
     removeTask(activeTask.quarterActiveTask, activeTask.positionActiveTask);
-    addTask(titleQuarterToMove, positionTaskToMove, taskToMove);
+    addTask(titleQuarterToMove, calculatedPosition, taskToMove);
   };
   return { moveTask };
 };

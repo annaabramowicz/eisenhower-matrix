@@ -2,7 +2,7 @@ type Task = { id: string };
 
 export type Quarter = { title: string; tasks: Task[] };
 
-export type OnDropType = { onDrop: () => void };
+export type OnDropType = { styleLastElement?: string; onDrop: () => void };
 
 export type TaskType = {
   positionTaskToMove: number;

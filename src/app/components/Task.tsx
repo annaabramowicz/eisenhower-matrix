@@ -15,6 +15,7 @@ const Task = ({ positionTaskToMove, quarterTitle }: TaskType) => {
   const renderedTask = matrixQuarter?.tasks[positionTaskToMove];
   return (
     <>
+      <DropArea onDrop={() => moveTask(quarterTitle, positionTaskToMove)} />
       <div
         draggable
         onDragStart={() => {
@@ -47,7 +48,6 @@ const Task = ({ positionTaskToMove, quarterTitle }: TaskType) => {
           </svg>
         </button>
       </div>
-      <DropArea onDrop={() => moveTask(quarterTitle, positionTaskToMove + 1)} />
     </>
   );
 };
