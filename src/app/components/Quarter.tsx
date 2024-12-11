@@ -10,7 +10,7 @@ const Quarter = ({ quarterTasks }: QuarterTasksType) => {
       key={quarterTasks.title}
       className="flex flex-col bg-base-300 rounded-md text-center mx-auto w-full max-h-full p-4"
     >
-      <h2 className="mt-5 mb-0">{quarterTasks.title}</h2>
+      <h2 className="mb-0">{quarterTasks.title}</h2>
       {quarterTasks.tasks.map((task, positionTaskToMove) => {
         return (
           <Task
