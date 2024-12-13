@@ -30,15 +30,15 @@ export const useMatrix = () => {
     );
     if (!taskToMove) return;
 
-    const quarterToMove = matrix.find(
-      ({ title }) => title === titleQuarterToMove
-    );
+    // const quarterToMove = matrix.find(
+    //   ({ title }) => title === titleQuarterToMove
+    // );
 
-    const calculatedPosition =
-      positionTaskToMove ?? quarterToMove?.tasks.length ?? 0;
+    // const calculatedPosition =
+    //   positionTaskToMove ?? quarterToMove?.tasks.length ?? 0;
 
     removeTask(activeTask.quarterActiveTask, activeTask.positionActiveTask);
-    addTask(titleQuarterToMove, calculatedPosition, taskToMove);
+    addTask(titleQuarterToMove, taskToMove, positionTaskToMove);
   };
   return { moveTask };
 };
