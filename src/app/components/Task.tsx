@@ -26,7 +26,7 @@ const Task = ({ positionTaskToMove, quarterTitle }: TaskType) => {
         }}
         className="px-3 py-0 alert rounded-md justify-items-end"
       >
-        <p className="px-2">{renderedTask?.id}</p>
+        <p className="px-2">{renderedTask?.task}</p>
 
         <button
           className="btn btn-circle"

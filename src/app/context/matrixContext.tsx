@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 import { MatrixContextType } from "../types/matrixTypes";
 import { QuarterTitle } from "../types/enums";
+import { getNewId } from "../helpers/idGenerator";
 
 type MatrixContextProvider = {
   children: ReactNode;
@@ -9,11 +10,11 @@ type MatrixContextProvider = {
 const defaultMatrix = [
   {
     title: QuarterTitle.doFirst,
-    tasks: [{ id: "1" }, { id: "2" }, { id: "3" }],
+    tasks: [{ id: getNewId(), task: "1" }],
   },
-  { title: QuarterTitle.schedule, tasks: [{ id: "4" }, { id: "5" }] },
-  { title: QuarterTitle.delegate, tasks: [{ id: "6" }] },
-  { title: QuarterTitle.delete, tasks: [{ id: "7" }, { id: "8" }] },
+  { title: QuarterTitle.schedule, tasks: [] },
+  { title: QuarterTitle.delegate, tasks: [] },
+  { title: QuarterTitle.delete, tasks: [] },
 ];
 
 const MatrixContext = createContext<MatrixContextType | null>(null);

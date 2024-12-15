@@ -1,4 +1,4 @@
-type Task = { id: string };
+type Task = { id: string; task: string };
 
 export type Quarter = { title: string; tasks: Task[] };
 
