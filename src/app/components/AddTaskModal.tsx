@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { useAddTask } from "../hooks/useAddTask";
+import { quarterTitleSchema } from "../types/zodSchemas";
 
 const AddTaskModal = ({ onClose }: { onClose: () => void }) => {
   const { addTask } = useAddTask();
@@ -9,16 +10,16 @@ const AddTaskModal = ({ onClose }: { onClose: () => void }) => {
 
     const taskSchema = z.object({
       taskName: z.string().min(1, "Task name is required"),
-      taskQuarter: z.union([z.literal("DO FIRST"), z.literal("SCHEDULE"), z.literal("DELEGATE"), z.literal("DELETE")]),
+      taskQuarter: quarterTitleSchema,
     });
 
     const formData = new FormData(event.currentTarget);
-    const exampleInput = {
+    const modalInput = {
       taskName: formData.get("new-task"),
-      taskQuarter: formData.get("quarter")?.toString() || "",
+      taskQuarter: formData.get("quarter"),
     };
 
-    const result = taskSchema.safeParse(exampleInput);
+    const result = taskSchema.safeParse(modalInput);
 
     if (!result.success) {
       console.error("Validation failed:", result.error.format());

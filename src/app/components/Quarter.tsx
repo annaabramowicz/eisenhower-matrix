@@ -9,7 +9,6 @@ type QuarterTasksProps = {
 };
 
 const Quarter = ({ quarterTasks, quarterTitle }: QuarterTasksProps) => {
-  console.log("🚀 ~ Quarter ~ quarterTitle:", quarterTitle);
   const { moveTask } = useMatrix();
   return (
     <div className="flex flex-col bg-base-300 rounded-md text-center mx-auto w-full max-h-full p-4">

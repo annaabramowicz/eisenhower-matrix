@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 import { Matrix, MatrixContextType, QuarterTitle } from "../types/matrixTypes";
-import { getNewId } from "../helpers/idGenerator";
+import { getNewId } from "../helpers/idCreator";
 
 type MatrixContextProvider = {
   children: ReactNode;
