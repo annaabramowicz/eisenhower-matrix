@@ -1,29 +1,23 @@
 import DropArea from "./DropArea";
 import Task from "./Task";
-import { QuarterTasksType } from "../types/matrixTypes";
 import { useMatrix } from "../hooks/useMatrix";
+import { QuarterTasks, QuarterTitle } from "../types/matrixTypes";
 
-const Quarter = ({ quarterTasks }: QuarterTasksType) => {
+type QuarterTasksProps = {
+  quarterTasks: QuarterTasks;
+  quarterTitle: QuarterTitle;
+};
+
+const Quarter = ({ quarterTasks, quarterTitle }: QuarterTasksProps) => {
+  console.log("🚀 ~ Quarter ~ quarterTitle:", quarterTitle);
   const { moveTask } = useMatrix();
   return (
-    <div
-      key={quarterTasks.title}
-      className="flex flex-col bg-base-300 rounded-md text-center mx-auto w-full max-h-full p-4"
-    >
-      <h2 className="mb-0">{quarterTasks.title}</h2>
+    <div className="flex flex-col bg-base-300 rounded-md text-center mx-auto w-full max-h-full p-4">
+      <h2 className="mb-0">{quarterTitle}</h2>
       {quarterTasks.tasks.map((task, positionTaskToMove) => {
-        return (
-          <Task
-            key={task.id}
-            positionTaskToMove={positionTaskToMove}
-            quarterTitle={quarterTasks.title}
-          />
-        );
+        return <Task key={task.id} positionTaskToMove={positionTaskToMove} quarterTitle={quarterTitle} />;
       })}
-      <DropArea
-        styleLastElement={"grow"}
-        onDrop={() => moveTask(quarterTasks.title)}
-      />
+      <DropArea styleLastElement={"grow"} onDrop={() => moveTask(quarterTitle)} />
     </div>
   );
 };

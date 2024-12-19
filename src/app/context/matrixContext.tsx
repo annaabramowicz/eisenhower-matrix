@@ -1,21 +1,25 @@
 import { createContext, ReactNode, useContext, useState } from "react";
-import { MatrixContextType } from "../types/matrixTypes";
-import { QuarterTitle } from "../types/enums";
+import { Matrix, MatrixContextType, QuarterTitle } from "../types/matrixTypes";
 import { getNewId } from "../helpers/idGenerator";
 
 type MatrixContextProvider = {
   children: ReactNode;
 };
 
-const defaultMatrix = [
-  {
-    title: QuarterTitle.doFirst,
-    tasks: [{ id: getNewId(), task: "1" }],
+const defaultMatrix: Matrix = {
+  "DO FIRST": {
+    tasks: [{ id: getNewId(), title: "Example task" }],
   },
-  { title: QuarterTitle.schedule, tasks: [] },
-  { title: QuarterTitle.delegate, tasks: [] },
-  { title: QuarterTitle.delete, tasks: [] },
-];
+  SCHEDULE: {
+    tasks: [],
+  },
+  DELEGATE: {
+    tasks: [],
+  },
+  DELETE: {
+    tasks: [],
+  },
+} as const;
 
 const MatrixContext = createContext<MatrixContextType | null>(null);
 
@@ -24,7 +28,7 @@ export const MatrixContextProvider = ({ children }: MatrixContextProvider) => {
 
   const [activeTask, setActiveTask] = useState<{
     positionActiveTask: null | number;
-    quarterActiveTask: null | string;
+    quarterActiveTask: null | QuarterTitle;
   }>({
     positionActiveTask: null,
     quarterActiveTask: null,
@@ -46,7 +50,6 @@ export const MatrixContextProvider = ({ children }: MatrixContextProvider) => {
 
 export const useMatrixContext = () => {
   const context = useContext(MatrixContext);
-  if (!context)
-    throw new Error("useMatrixContext called outside of the matrix provider");
+  if (!context) throw new Error("useMatrixContext called outside of the matrix provider");
   return context;
 };

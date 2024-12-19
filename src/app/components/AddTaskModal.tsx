@@ -1,5 +1,5 @@
+import { z } from "zod";
 import { useAddTask } from "../hooks/useAddTask";
-import { QuarterTitle } from "../types/enums";
 
 const AddTaskModal = ({ onClose }: { onClose: () => void }) => {
   const { addTask } = useAddTask();
@@ -7,11 +7,25 @@ const AddTaskModal = ({ onClose }: { onClose: () => void }) => {
   const submit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const formData = new FormData(event.currentTarget);
-    const taskName = formData.get("new-task");
-    const taskQuarter = formData.get("quarter");
+    const taskSchema = z.object({
+      taskName: z.string().min(1, "Task name is required"),
+      taskQuarter: z.union([z.literal("DO FIRST"), z.literal("SCHEDULE"), z.literal("DELEGATE"), z.literal("DELETE")]),
+    });
 
-    addTask(`${taskQuarter}`, { id: taskName });
+    const formData = new FormData(event.currentTarget);
+    const exampleInput = {
+      taskName: formData.get("new-task"),
+      taskQuarter: formData.get("quarter")?.toString() || "",
+    };
+
+    const result = taskSchema.safeParse(exampleInput);
+
+    if (!result.success) {
+      console.error("Validation failed:", result.error.format());
+      return;
+    }
+
+    addTask(result.data.taskQuarter, { title: result.data.taskName });
     onClose();
   };
 
@@ -27,15 +41,11 @@ const AddTaskModal = ({ onClose }: { onClose: () => void }) => {
               className="input input-bordered w-full max-w-xs"
               required
             />
-            <select
-              name="quarter"
-              className="select select-bordered w-full max-w-xs"
-              required
-            >
-              <option>{QuarterTitle.doFirst}</option>
-              <option>{QuarterTitle.schedule}</option>
-              <option>{QuarterTitle.delegate}</option>
-              <option>{QuarterTitle.delete}</option>
+            <select name="quarter" className="select select-bordered w-full max-w-xs" required>
+              <option>DO FIRST</option>
+              <option>SCHEDULE</option>
+              <option>DELEGATE</option>
+              <option>DELETE</option>
             </select>
 
             <div className="form-control mt-6">

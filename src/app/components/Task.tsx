@@ -9,10 +9,9 @@ const Task = ({ positionTaskToMove, quarterTitle }: TaskType) => {
   const { moveTask } = useMatrix();
   const { removeTask } = useRemoveTask();
 
-  const matrixQuarter = matrix.find(
-    (quarter) => quarter.title === quarterTitle
-  );
+  const matrixQuarter = matrix[quarterTitle];
   const renderedTask = matrixQuarter?.tasks[positionTaskToMove];
+
   return (
     <>
       <DropArea onDrop={() => moveTask(quarterTitle, positionTaskToMove)} />
@@ -26,12 +25,9 @@ const Task = ({ positionTaskToMove, quarterTitle }: TaskType) => {
         }}
         className="px-3 py-0 alert rounded-md justify-items-end"
       >
-        <p className="px-2">{renderedTask?.task}</p>
+        <p className="px-2">{renderedTask?.title}</p>
 
-        <button
-          className="btn btn-circle"
-          onClick={() => removeTask(quarterTitle, positionTaskToMove)}
-        >
+        <button className="btn btn-circle" onClick={() => removeTask(quarterTitle, positionTaskToMove)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
@@ -39,12 +35,7 @@ const Task = ({ positionTaskToMove, quarterTitle }: TaskType) => {
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
       </div>

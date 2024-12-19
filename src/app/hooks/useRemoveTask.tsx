@@ -1,24 +1,21 @@
 import { useMatrixContext } from "../context/matrixContext";
+import { QuarterTitle } from "../types/matrixTypes";
 
 export const useRemoveTask = () => {
   const { setMatrix } = useMatrixContext();
 
-  const removeTask = (
-    quarterActiveTask: string,
-    positionActiveTask: number
-  ) => {
+  const removeTask = (quarterActiveTask: QuarterTitle, positionActiveTask: number) => {
     setMatrix((prevMatrix) => {
-      return prevMatrix.map((group) => {
-        if (group.title === quarterActiveTask) {
-          return {
-            ...group,
-            tasks: group.tasks.filter(
-              (_, index) => index !== positionActiveTask
-            ),
-          };
-        }
-        return group;
-      });
+      const updatedQuarterTasks = prevMatrix[quarterActiveTask].tasks.filter(
+        (_, index) => index !== positionActiveTask
+      );
+      return {
+        ...prevMatrix,
+        [quarterActiveTask]: {
+          ...prevMatrix[quarterActiveTask],
+          tasks: updatedQuarterTasks,
+        },
+      };
     });
   };
 
