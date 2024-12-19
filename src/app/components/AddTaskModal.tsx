@@ -9,14 +9,14 @@ const AddTaskModal = ({ onClose }: { onClose: () => void }) => {
     event.preventDefault();
 
     const taskSchema = z.object({
-      taskName: z.string().min(1, "Task name is required"),
-      taskQuarter: quarterTitleSchema,
+      taskTitle: z.string().min(1, "Task name is required"),
+      quarterTitle: quarterTitleSchema,
     });
 
     const formData = new FormData(event.currentTarget);
     const modalInput = {
-      taskName: formData.get("new-task"),
-      taskQuarter: formData.get("quarter"),
+      taskTitle: formData.get("new-task"),
+      quarterTitle: formData.get("quarter"),
     };
 
     const result = taskSchema.safeParse(modalInput);
@@ -26,7 +26,7 @@ const AddTaskModal = ({ onClose }: { onClose: () => void }) => {
       return;
     }
 
-    addTask(result.data.taskQuarter, { title: result.data.taskName });
+    addTask(result.data.quarterTitle, { title: result.data.taskTitle });
     onClose();
   };
 
