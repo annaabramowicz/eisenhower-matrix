@@ -1,3 +1,5 @@
+"use client";
+
 import AddTaskButton from "./AddTaskButton";
 import Matrix from "./Matrix";
 import MatrixSection from "./MatrixSection";
@@ -8,15 +10,11 @@ const MatrixGrid = () => {
       <AddTaskButton />
       <MatrixSection>URGENT</MatrixSection>
       <MatrixSection>NOT URGENT</MatrixSection>
-      <MatrixSection className="[writing-mode:vertical-lr] [transform:rotate(180deg)]">
-        IMPORTANT
-      </MatrixSection>
+      <MatrixSection className="[writing-mode:vertical-lr] [transform:rotate(180deg)]">IMPORTANT</MatrixSection>
       <div className="row-span-2 col-span-2 flex items-center justify-center  text-white font-bold rounded shadow">
         <Matrix />
       </div>
-      <MatrixSection className="[writing-mode:vertical-lr] [transform:rotate(180deg)]">
-        NOT IMPORTANT
-      </MatrixSection>
+      <MatrixSection className="[writing-mode:vertical-lr] [transform:rotate(180deg)]">NOT IMPORTANT</MatrixSection>
     </div>
   );
 };

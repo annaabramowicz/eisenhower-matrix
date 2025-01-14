@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, ReactNode, useContext, useState } from "react";
 import { Matrix, MatrixContextType, QuarterTitle } from "../types/matrixTypes";
 import { getNewId } from "../helpers/idCreator";
