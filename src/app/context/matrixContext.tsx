@@ -2,7 +2,6 @@
 
 import { createContext, ReactNode, useContext, useState } from "react";
 import { Matrix, MatrixContextType, QuarterTitle } from "../types/matrixTypes";
-import { getNewId } from "../helpers/idCreator";
 
 type MatrixContextProvider = {
   children: ReactNode;
@@ -10,7 +9,7 @@ type MatrixContextProvider = {
 
 const defaultMatrix: Matrix = {
   "DO FIRST": {
-    tasks: [{ id: getNewId(), title: "Example task" }],
+    tasks: [{ title: "Example task" }],
   },
   SCHEDULE: {
     tasks: [],

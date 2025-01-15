@@ -28,9 +28,12 @@ const AddTaskModal = ({ onClose }: { onClose: () => void }) => {
     }
 
     try {
-      const response = await axios.post("/api/task", {
-        quarterTitle: result.data.quarterTitle,
-        taskTitle: result.data.taskTitle,
+      const response = await axios.post("/api/matrix", {
+        title: result.data.taskTitle,
+        positionActiveTask: 1, // przykładowa wartość
+        quarterActiveTask: result.data.quarterTitle,
+        // quarterTitle: result.data.quarterTitle,
+        // taskTitle: result.data.taskTitle,
       });
       console.log(response);
     } catch (err) {

@@ -5,17 +5,12 @@ import Task from "../../model/task";
 export async function POST(request: Request) {
   try {
     await connectDB();
-    console.log(request);
-    // const { id, title, positionActiveTask, quarterActiveTask } = await request.json();
-    // const newTask1 = new Task({ id, title, positionActiveTask, quarterActiveTask });
-    // await newTask1.save();
-    // return NextResponse.json(newTask1, { status: 200 });
+    const { title, positionActiveTask, quarterActiveTask } = await request.json();
 
     const newTask = await Task.create({
-      id: "03",
-      title: "przykladowy tytul",
-      positionActiveTask: 4,
-      quarterActiveTask: "SCHEDULE",
+      title,
+      positionActiveTask,
+      quarterActiveTask,
     });
     return NextResponse.json({ task: newTask, message: "task created" }, { status: 200 });
   } catch (error) {
