@@ -6,9 +6,12 @@ const TaskSchema = new Schema({
   },
   title: {
     type: String,
+    required: true,
   },
+  positionActiveTask: { type: Number, required: true },
+  quarterActiveTask: { type: String, required: true },
 });
 
-const Task = models.Task || mongoose.model("Task", TaskSchema);
+const Task = models.Tasks || mongoose.model("Tasks", TaskSchema);
 
 export default Task;

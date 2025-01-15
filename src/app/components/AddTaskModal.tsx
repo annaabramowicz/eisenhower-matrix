@@ -1,11 +1,12 @@
 import { z } from "zod";
 import { useAddTask } from "../hooks/useAddTask";
 import { quarterTitleSchema } from "../types/zodSchemas";
+import axios from "axios";
 
 const AddTaskModal = ({ onClose }: { onClose: () => void }) => {
   const { addTask } = useAddTask();
 
-  const submit = (event: React.FormEvent<HTMLFormElement>) => {
+  const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const taskSchema = z.object({
@@ -26,6 +27,15 @@ const AddTaskModal = ({ onClose }: { onClose: () => void }) => {
       return;
     }
 
+    try {
+      const response = await axios.post("/api/task", {
+        quarterTitle: result.data.quarterTitle,
+        taskTitle: result.data.taskTitle,
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
     addTask(result.data.quarterTitle, { title: result.data.taskTitle });
     onClose();
   };
