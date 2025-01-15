@@ -12,3 +12,16 @@ export async function addTaskToMatrixDB(quarterTitle: QuarterTitle, newTask: str
     console.log(err);
   }
 }
+
+export async function deleteTaskFromMatrixDB(quarterTitle: QuarterTitle, calculatedPosition: number) {
+  try {
+    await axios.delete("/api/matrix", {
+      data: {
+        positionActiveTask: calculatedPosition,
+        quarterActiveTask: quarterTitle,
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}

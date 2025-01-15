@@ -1,3 +1,4 @@
+import { deleteTaskFromMatrixDB } from "../api/matrix/axiosMatrix";
 import { useMatrixContext } from "../context/matrixContext";
 import { QuarterTitle } from "../types/matrixTypes";
 
@@ -17,6 +18,7 @@ export const useRemoveTask = () => {
         },
       };
     });
+    deleteTaskFromMatrixDB(quarterActiveTask, positionActiveTask);
   };
 
   return { removeTask };

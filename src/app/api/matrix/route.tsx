@@ -22,19 +22,21 @@ export async function POST(request: Request) {
   }
 }
 
-// // export async function GET() {
-// //   return Response.json(users);
-// // }
-// export const dynamic = "force-static";
+export async function DELETE(request: Request) {
+  try {
+    await connectDB();
+    const { positionActiveTask, quarterActiveTask } = await request.json();
 
-// export async function GET() {
-//   const res = await fetch("http://localhost:3000/api", {
-//     headers: {
-//       "Content-Type": "application/json",
-//       "API-Key": process.env.DATA_API_KEY,
-//     },
-//   });
-//   const data = await res.json();
-
-//   return Response.json({ data });
-// }
+    const result = await Task.deleteOne({ positionActiveTask, quarterActiveTask });
+    if (result.deletedCount === 0) {
+      return NextResponse.json({ result, message: "No task found to delete" }, { status: 404 });
+    }
+    return NextResponse.json({ result, message: "Task deleted successfully" }, { status: 200 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return NextResponse.json({ message: "Internal server error", error: error.message }, { status: 500 });
+    } else {
+      return NextResponse.json({ message: "Internal server error", error: String(error) }, { status: 500 });
+    }
+  }
+}
