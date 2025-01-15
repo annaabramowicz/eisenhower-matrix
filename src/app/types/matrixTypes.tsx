@@ -1,4 +1,4 @@
-export type Task = { id?: string; title: string };
+export type Task = { title: string };
 
 export type QuarterTitle = "DO FIRST" | "SCHEDULE" | "DELEGATE" | "DELETE";
 

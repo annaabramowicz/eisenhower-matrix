@@ -1,3 +1,4 @@
+import { addTaskToMatrixDB } from "../api/matrix/axiosMatrix";
 import { useMatrixContext } from "../context/matrixContext";
 import { QuarterTitle, Task } from "../types/matrixTypes";
 
@@ -12,6 +13,7 @@ export const useAddTask = () => {
       const newTasks = prevMatrix[quarterTitle].tasks.toSpliced(calculatedPosition, 0, newTask);
       return { ...prevMatrix, [quarterTitle]: { tasks: newTasks } };
     });
+    addTaskToMatrixDB(quarterTitle, newTask.title, calculatedPosition);
   };
 
   return { addTask };

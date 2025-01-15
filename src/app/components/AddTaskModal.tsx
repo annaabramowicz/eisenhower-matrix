@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { useAddTask } from "../hooks/useAddTask";
 import { quarterTitleSchema } from "../types/zodSchemas";
-import axios from "axios";
 
 const AddTaskModal = ({ onClose }: { onClose: () => void }) => {
   const { addTask } = useAddTask();
@@ -27,18 +26,6 @@ const AddTaskModal = ({ onClose }: { onClose: () => void }) => {
       return;
     }
 
-    try {
-      const response = await axios.post("/api/matrix", {
-        title: result.data.taskTitle,
-        positionActiveTask: 1, // przykładowa wartość
-        quarterActiveTask: result.data.quarterTitle,
-        // quarterTitle: result.data.quarterTitle,
-        // taskTitle: result.data.taskTitle,
-      });
-      console.log(response);
-    } catch (err) {
-      console.log(err);
-    }
     addTask(result.data.quarterTitle, { title: result.data.taskTitle });
     onClose();
   };
