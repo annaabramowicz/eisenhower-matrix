@@ -22,6 +22,21 @@ export async function POST(request: Request) {
   }
 }
 
+export async function GET() {
+  try {
+    await connectDB();
+
+    const matrix = await Task.find({});
+    return NextResponse.json({ matrix, message: "Tasks fetched successfully" }, { status: 200 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return NextResponse.json({ message: "Internal server error", error: error.message }, { status: 500 });
+    } else {
+      return NextResponse.json({ message: "Internal server error", error: String(error) }, { status: 500 });
+    }
+  }
+}
+
 export async function DELETE(request: Request) {
   try {
     await connectDB();

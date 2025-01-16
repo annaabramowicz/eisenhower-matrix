@@ -7,9 +7,9 @@ type MatrixContextProvider = {
   children: ReactNode;
 };
 
-const defaultMatrix: Matrix = {
+export const initialMatrix: Matrix = {
   "DO FIRST": {
-    tasks: [{ title: "Example task" }],
+    tasks: [],
   },
   SCHEDULE: {
     tasks: [],
@@ -25,7 +25,7 @@ const defaultMatrix: Matrix = {
 const MatrixContext = createContext<MatrixContextType | null>(null);
 
 export const MatrixContextProvider = ({ children }: MatrixContextProvider) => {
-  const [matrix, setMatrix] = useState(defaultMatrix);
+  const [matrix, setMatrix] = useState({});
 
   const [activeTask, setActiveTask] = useState<{
     positionActiveTask: null | number;
