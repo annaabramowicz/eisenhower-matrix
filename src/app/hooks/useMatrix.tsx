@@ -1,3 +1,4 @@
+import { moveTaskInMatrixDB } from "../api/matrix/axiosMatrix";
 import { useMatrixContext } from "../context/matrixContext";
 import { QuarterTitle } from "../types/matrixTypes";
 import { useAddTask } from "./useAddTask";
@@ -20,6 +21,12 @@ export const useMatrix = () => {
 
     removeTask(activeTask.quarterActiveTask, activeTask.positionActiveTask);
     addTask(titleQuarterToMove, taskToMove, positionTaskToMove);
+    moveTaskInMatrixDB(
+      activeTask.quarterActiveTask,
+      activeTask.positionActiveTask,
+      titleQuarterToMove,
+      positionTaskToMove!
+    );
   };
   return { moveTask };
 };

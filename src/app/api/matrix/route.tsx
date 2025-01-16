@@ -40,3 +40,23 @@ export async function DELETE(request: Request) {
     }
   }
 }
+
+export async function PATCH(request: Request) {
+  try {
+    await connectDB();
+    const { quarterActiveTask, positionActiveTask, quarterTitle, calculatedPosition } = await request.json();
+
+    const result = await Task.updateOne(
+      { quarterActiveTask, positionActiveTask },
+      { $set: { quarterTitle, calculatedPosition } }
+    );
+
+    return NextResponse.json({ result, message: "Task deleted successfully" }, { status: 200 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return NextResponse.json({ message: "Internal server error", error: error.message }, { status: 500 });
+    } else {
+      return NextResponse.json({ message: "Internal server error", error: String(error) }, { status: 500 });
+    }
+  }
+}
