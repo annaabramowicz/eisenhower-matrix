@@ -29,5 +29,6 @@ export type MatrixContextType = {
 };
 
 export type ApiTaskData = {
-  matrix: { quarterActiveTask: QuarterTitle; title: string }[];
-};
+  quarterActiveTask: QuarterTitle;
+  title: string;
+}[];

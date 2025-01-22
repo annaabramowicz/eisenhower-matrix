@@ -1,31 +1,17 @@
 "use client";
 
 import { createContext, ReactNode, useContext, useState } from "react";
-import { Matrix, MatrixContextType, QuarterTitle } from "../types/matrixTypes";
+import { MatrixContextType, QuarterTitle } from "../types/matrixTypes";
+import { initialMatrix } from "./initialMatrix";
 
 type MatrixContextProvider = {
   children: ReactNode;
 };
 
-export const initialMatrix: Matrix = {
-  "DO FIRST": {
-    tasks: [],
-  },
-  SCHEDULE: {
-    tasks: [],
-  },
-  DELEGATE: {
-    tasks: [],
-  },
-  DELETE: {
-    tasks: [],
-  },
-} as const;
-
 const MatrixContext = createContext<MatrixContextType | null>(null);
 
 export const MatrixContextProvider = ({ children }: MatrixContextProvider) => {
-  const [matrix, setMatrix] = useState({});
+  const [matrix, setMatrix] = useState(initialMatrix);
 
   const [activeTask, setActiveTask] = useState<{
     positionActiveTask: null | number;
