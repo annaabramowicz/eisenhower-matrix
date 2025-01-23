@@ -5,7 +5,7 @@ import { QuarterTitle } from "../types/matrixTypes";
 export const useRemoveTask = () => {
   const { setMatrix } = useMatrixContext();
 
-  const removeTask = (quarterActiveTask: QuarterTitle, positionActiveTask: number) => {
+  const removeTask = (quarterActiveTask: QuarterTitle, positionActiveTask: number, removeFromDB?: boolean) => {
     setMatrix((prevMatrix) => {
       const updatedQuarterTasks = prevMatrix[quarterActiveTask].tasks.filter(
         (_, index) => index !== positionActiveTask
@@ -18,7 +18,7 @@ export const useRemoveTask = () => {
         },
       };
     });
-    deleteTaskFromMatrixDB(quarterActiveTask, positionActiveTask);
+    if (removeFromDB) deleteTaskFromMatrixDB(quarterActiveTask, positionActiveTask);
   };
 
   return { removeTask };

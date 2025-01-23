@@ -22,21 +22,6 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET() {
-  try {
-    await connectDB();
-
-    const matrix = await Task.find({});
-    return NextResponse.json({ matrix, message: "Tasks fetched successfully" }, { status: 200 });
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      return NextResponse.json({ message: "Internal server error", error: error.message }, { status: 500 });
-    } else {
-      return NextResponse.json({ message: "Internal server error", error: String(error) }, { status: 500 });
-    }
-  }
-}
-
 export async function DELETE(request: Request) {
   try {
     await connectDB();
@@ -61,12 +46,30 @@ export async function PATCH(request: Request) {
     await connectDB();
     const { quarterActiveTask, positionActiveTask, quarterTitle, calculatedPosition } = await request.json();
 
-    const result = await Task.updateOne(
-      { quarterActiveTask, positionActiveTask },
-      { $set: { quarterTitle, calculatedPosition } }
+    const updateManyInActiveQuarterResult = await Task.updateMany(
+      { quarterActiveTask, positionActiveTask: { $gt: positionActiveTask } },
+      { $inc: { positionActiveTask: -1 } }
     );
 
-    return NextResponse.json({ result, message: "Task deleted successfully" }, { status: 200 });
+    const updateManyInQuarterToMoveResult = await Task.updateMany(
+      { quarterActiveTask: quarterTitle, positionActiveTask: { $gte: calculatedPosition } },
+      { $inc: { positionActiveTask: 1 } }
+    );
+
+    const updateOneResult = await Task.updateOne(
+      { quarterActiveTask, positionActiveTask },
+      { $set: { quarterActiveTask: quarterTitle, positionActiveTask: calculatedPosition } }
+    );
+
+    return NextResponse.json(
+      {
+        updateManyInActiveQuarterResult,
+        updateManyInQuarterToMoveResult,
+        updateOneResult,
+        message: "Task updated successfully",
+      },
+      { status: 200 }
+    );
   } catch (error: unknown) {
     if (error instanceof Error) {
       return NextResponse.json({ message: "Internal server error", error: error.message }, { status: 500 });

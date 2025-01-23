@@ -1,5 +1,6 @@
 import { moveTaskInMatrixDB } from "../api/matrix/axiosMatrix";
 import { useMatrixContext } from "../context/matrixContext";
+import { calculatePosition } from "../helpers/calculatePositionMovedTask";
 import { QuarterTitle } from "../types/matrixTypes";
 import { useAddTask } from "./useAddTask";
 import { useRemoveTask } from "./useRemoveTask";
@@ -16,16 +17,27 @@ export const useMatrix = () => {
 
   const moveTask = (titleQuarterToMove: QuarterTitle, positionTaskToMove?: number) => {
     if (activeTask.quarterActiveTask === null || activeTask.positionActiveTask === null) return;
+    const quarterToMove = matrix[titleQuarterToMove];
+
+    const calculatedPosition = calculatePosition(
+      activeTask.quarterActiveTask,
+      titleQuarterToMove,
+      activeTask.positionActiveTask,
+      positionTaskToMove,
+      quarterToMove.tasks.length === 0,
+      matrix
+    );
+
     const taskToMove = getTaskByQuarterAndIndex(activeTask.quarterActiveTask, activeTask.positionActiveTask);
     if (!taskToMove) return;
 
     removeTask(activeTask.quarterActiveTask, activeTask.positionActiveTask);
-    addTask(titleQuarterToMove, taskToMove, positionTaskToMove);
+    addTask(titleQuarterToMove, taskToMove, calculatedPosition);
     moveTaskInMatrixDB(
       activeTask.quarterActiveTask,
       activeTask.positionActiveTask,
       titleQuarterToMove,
-      positionTaskToMove!
+      calculatedPosition
     );
   };
   return { moveTask };
