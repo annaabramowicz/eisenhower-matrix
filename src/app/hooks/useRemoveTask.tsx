@@ -1,11 +1,11 @@
-import { deleteTaskFromMatrixDB } from "../api/matrix/axiosMatrix";
+import { removeTaskFromDB } from "../actions/actions";
 import { useMatrixContext } from "../context/matrixContext";
 import { QuarterTitle } from "../types/matrixTypes";
 
 export const useRemoveTask = () => {
   const { setMatrix } = useMatrixContext();
 
-  const removeTask = (quarterActiveTask: QuarterTitle, positionActiveTask: number, removeFromDB?: boolean) => {
+  const removeTask = async (quarterActiveTask: QuarterTitle, positionActiveTask: number, removeFromDB?: boolean) => {
     setMatrix((prevMatrix) => {
       const updatedQuarterTasks = prevMatrix[quarterActiveTask].tasks.filter(
         (_, index) => index !== positionActiveTask
@@ -18,7 +18,7 @@ export const useRemoveTask = () => {
         },
       };
     });
-    if (removeFromDB) deleteTaskFromMatrixDB(quarterActiveTask, positionActiveTask);
+    if (removeFromDB) await removeTaskFromDB(positionActiveTask, quarterActiveTask);
   };
 
   return { removeTask };
