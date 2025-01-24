@@ -1,4 +1,4 @@
-import { moveTaskInMatrixDB } from "../api/matrix/axiosMatrix";
+import { moveTaskInMatrixDB } from "../actions/actions";
 import { useMatrixContext } from "../context/matrixContext";
 import { calculatePosition } from "../helpers/calculatePositionMovedTask";
 import { QuarterTitle } from "../types/matrixTypes";
