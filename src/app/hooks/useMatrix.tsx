@@ -33,12 +33,12 @@ export const useMatrix = () => {
 
     removeTask(activeTask.quarterActiveTask, activeTask.positionActiveTask);
     addTask(titleQuarterToMove, taskToMove, calculatedPosition);
-    moveTaskInMatrixDB(
-      activeTask.quarterActiveTask,
-      activeTask.positionActiveTask,
-      titleQuarterToMove,
-      calculatedPosition
-    );
+    // moveTaskInMatrixDB(
+    //   activeTask.quarterActiveTask,
+    //   activeTask.positionActiveTask,
+    //   titleQuarterToMove,
+    //   calculatedPosition
+    // );
   };
   return { moveTask };
 };

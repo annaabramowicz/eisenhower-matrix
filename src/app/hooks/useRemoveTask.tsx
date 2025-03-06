@@ -18,7 +18,7 @@ export const useRemoveTask = () => {
         },
       };
     });
-    if (removeFromDB) await removeTaskFromDB(positionActiveTask, quarterActiveTask);
+    // if (removeFromDB) await removeTaskFromDB(positionActiveTask, quarterActiveTask);
   };
 
   return { removeTask };

@@ -8,7 +8,6 @@ if (!DATABASE_URL) {
 const connectDB = async () => {
   try {
     await mongoose.connect(DATABASE_URL);
-    console.log("connected to DB");
   } catch (err) {
     console.log(err);
   }

@@ -9,17 +9,28 @@ import Skeleton from "./Skeleton";
 import { Matrix as MatrixType } from "../types/matrixTypes";
 
 type MatrixGridProps = {
-  newMatrix: MatrixType;
+  matrix: MatrixType;
 };
 
-const MatrixGrid = ({ newMatrix }: MatrixGridProps) => {
+const MatrixGrid = ({ matrix }: MatrixGridProps) => {
+  console.log("🚀 ~ MatrixGrid ~ matrix:", matrix);
   const { setMatrix } = useMatrixContext();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setMatrix(newMatrix);
+    setLoading(true);
+
+    // Pobierz bieżący stan matrycy z kontekstu
+    setMatrix((prevMatrix) => {
+      if (JSON.stringify(prevMatrix) !== JSON.stringify(matrix)) {
+        // Ustaw nową matrycę tylko wtedy, gdy różni się od poprzedniej
+        return matrix;
+      }
+      return prevMatrix; // Jeśli jest taka sama, nic nie zmieniaj
+    });
+
     setLoading(false);
-  }, [newMatrix, setMatrix]);
+  }, [matrix, setMatrix]);
 
   return (
     <div className="grid grid-cols-[3rem_1fr_1fr] grid-rows-[3rem_1fr_1fr] gap-2 w-4/5 h-4/5">
@@ -52,7 +63,9 @@ const MatrixGrid = ({ newMatrix }: MatrixGridProps) => {
           <Matrix />
         </Suspense> */}
         {/* 1 */}
-        {loading ? <Skeleton /> : <Matrix />}
+        {/* {loading ? */}
+        <Skeleton />
+        {/* : <Matrix />} */}
       </div>
       <MatrixSection className="[writing-mode:vertical-lr] [transform:rotate(180deg)]">NOT IMPORTANT</MatrixSection>
     </div>
