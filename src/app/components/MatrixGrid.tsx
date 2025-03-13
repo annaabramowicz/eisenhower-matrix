@@ -28,30 +28,6 @@ const MatrixGrid = ({ newMatrix }: MatrixGridProps) => {
       <MatrixSection>NOT URGENT</MatrixSection>
       <MatrixSection className="[writing-mode:vertical-lr] [transform:rotate(180deg)]">IMPORTANT</MatrixSection>
       <div className="row-span-2 col-span-2 flex items-center justify-center  text-white font-bold rounded shadow">
-        {/* 2 */}
-        {/* <Suspense
-          fallback={
-            // <Skeleton />
-            <>
-              <div style={{ background: "red" }}>
-                <h1>Ładowanie...</h1>
-                <h1>Ładowanie...</h1>
-                <h1>Ładowanie...</h1>
-                <h1>Ładowanie...</h1>
-                <h1>Ładowanie...</h1>
-                <h1>Ładowanie...</h1>
-                <h1>Ładowanie...</h1>
-                <h1>Ładowanie...</h1>
-                <h1>Ładowanie...</h1>
-                <h1>Ładowanie...</h1>
-                <h1>Ładowanie...</h1>
-              </div>
-            </>
-          }
-        >
-          <Matrix />
-        </Suspense> */}
-        {/* 1 */}
         {loading ? <Skeleton /> : <Matrix />}
       </div>
       <MatrixSection className="[writing-mode:vertical-lr] [transform:rotate(180deg)]">NOT IMPORTANT</MatrixSection>
