@@ -14,7 +14,7 @@ export const useAddTask = () => {
       return { ...prevMatrix, [quarterTitle]: { tasks: newTasks } };
     });
 
-    if (addToDB) await addTaskToDB(newTask.title, calculatedPosition, quarterTitle);
+    if (addToDB) await addTaskToDB(quarterTitle, newTask.title, calculatedPosition);
   };
 
   return { addTask };

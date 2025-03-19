@@ -1,4 +1,3 @@
-import { moveTaskInMatrixDB } from "../actions/actions";
 import { useMatrixContext } from "../context/matrixContext";
 import { calculatePosition } from "../helpers/calculatePositionMovedTask";
 import { QuarterTitle } from "../types/matrixTypes";
@@ -33,12 +32,12 @@ export const useMatrix = () => {
 
     removeTask(activeTask.quarterActiveTask, activeTask.positionActiveTask);
     addTask(titleQuarterToMove, taskToMove, calculatedPosition);
-    moveTaskInMatrixDB(
-      activeTask.quarterActiveTask,
-      activeTask.positionActiveTask,
-      titleQuarterToMove,
-      calculatedPosition
-    );
+    // moveTaskInMatrixDB(
+    //   activeTask.quarterActiveTask,
+    //   activeTask.positionActiveTask,
+    //   titleQuarterToMove,
+    //   calculatedPosition
+    // );
   };
   return { moveTask };
 };
