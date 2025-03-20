@@ -6,14 +6,12 @@ import { useRemoveTask } from "../hooks/useRemoveTask";
 
 const Task = ({ positionTaskToMove, quarterTitle }: TaskType) => {
   const { matrix, setActiveTask } = useMatrixContext();
-  console.log("🚀 ~ Task ~ matrix:", matrix);
   // const { moveTask } = useMatrix();
   const { removeTask } = useRemoveTask();
 
   const matrixQuarter = matrix.find((quarter) => {
     return quarter.quarterTitle === quarterTitle;
   });
-  console.log("🚀 ~ matrixQuarter ~ matrixQuarter:", matrixQuarter);
   const renderedTask = matrixQuarter?.tasks[positionTaskToMove];
 
   return (

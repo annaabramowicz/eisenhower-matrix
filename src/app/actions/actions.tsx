@@ -16,14 +16,15 @@ export async function addTaskToDB(quarterTitle: QuarterTitle, taskTitle: string,
   await Quarter.updateOne({ quarterTitle }, { $push: { tasks: { taskTitle: taskTitle, taskPosition: taskPosition } } });
 }
 
-// export async function removeTaskFromDB(positionActiveTask: number, quarterActiveTask: QuarterTitle) {
-//   await connectDB();
-//   await Task.deleteOne({ positionActiveTask, quarterActiveTask });
-//   await Task.updateMany(
-//     { quarterActiveTask, positionActiveTask: { $gte: positionActiveTask } },
-//     { $inc: { positionActiveTask: -1 } }
-//   );
-// }
+export async function removeTaskFromDB(taskPosition: number, quarterTitle: QuarterTitle) {
+  await connectDB();
+  await Quarter.updateOne({ quarterTitle }, { $pull: { tasks: { taskPosition: taskPosition } } });
+  await Quarter.updateOne(
+    { quarterTitle },
+    { $inc: { "tasks.$[elem].taskPosition": -1 } },
+    { arrayFilters: [{ "elem.taskPosition": { $gt: taskPosition } }] }
+  );
+}
 
 // export async function moveTaskInMatrixDB(
 //   quarterActiveTask: QuarterTitle,
