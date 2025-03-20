@@ -1,9 +1,9 @@
 import { z } from "zod";
-// import { useAddTask } from "../hooks/useAddTask";
+import { useAddTask } from "../hooks/useAddTask";
 import { quarterTitleSchema } from "../types/zodSchemas";
 
 const AddTaskModal = ({ onClose }: { onClose: () => void }) => {
-  // const { addTask } = useAddTask();
+  const { addTask } = useAddTask();
 
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -26,7 +26,7 @@ const AddTaskModal = ({ onClose }: { onClose: () => void }) => {
       return;
     }
 
-    // addTask(result.data.quarterTitle, { title: result.data.taskTitle }, undefined, true);
+    addTask(result.data.quarterTitle, { taskTitle: result.data.taskTitle, taskPosition: 0 }, undefined, true);
     onClose();
   };
 
