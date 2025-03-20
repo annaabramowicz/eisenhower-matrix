@@ -1,22 +1,25 @@
-import DropArea from "./DropArea";
+// import DropArea from "./DropArea";
 import Task from "./Task";
-import { useMatrix } from "../hooks/useMatrix";
-import { QuarterTasks, QuarterTitle } from "../types/matrixTypes";
+// import { useMatrix } from "../hooks/useMatrix";
+import { QuarterTitle, Task as TaskType } from "../types/matrixTypes";
 
 type QuarterTasksProps = {
-  quarterTasks: QuarterTasks;
+  quarterTasks: TaskType[];
   quarterTitle: QuarterTitle;
 };
 
 const Quarter = ({ quarterTasks, quarterTitle }: QuarterTasksProps) => {
-  const { moveTask } = useMatrix();
+  // const { moveTask } = useMatrix();
   return (
     <div className="flex flex-col bg-base-300 rounded-md text-center mx-auto w-full max-h-full p-4">
       <h2 className="mb-0">{quarterTitle}</h2>
-      {quarterTasks.tasks.map((_, positionTaskToMove) => {
-        return <Task key={positionTaskToMove} positionTaskToMove={positionTaskToMove} quarterTitle={quarterTitle} />;
+      {quarterTasks.map((task, index) => {
+        return <Task key={index} positionTaskToMove={task.taskPosition} quarterTitle={quarterTitle} />;
       })}
-      <DropArea styleLastElement={"grow"} onDrop={() => moveTask(quarterTitle)} />
+      {/* {quarterTasks.tasks.map((_, positionTaskToMove) => {
+        return <Task key={positionTaskToMove} positionTaskToMove={positionTaskToMove} quarterTitle={quarterTitle} />;
+      })} */}
+      {/* <DropArea styleLastElement={"grow"} onDrop={() => moveTask(quarterTitle)} /> */}
     </div>
   );
 };

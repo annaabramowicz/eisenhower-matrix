@@ -1,10 +1,15 @@
-export type Task = { title: string };
+export type Task = { taskTitle: string; taskPosition: number };
 
 export type QuarterTitle = "DO FIRST" | "SCHEDULE" | "DELEGATE" | "DELETE";
 
 export type QuarterTasks = { tasks: Task[] };
 
-export type Matrix = Record<QuarterTitle, QuarterTasks>;
+export type Quarter = {
+  quarterTitle: QuarterTitle;
+  tasks: Task[];
+};
+
+export type Matrix = Quarter[];
 
 export type OnDropType = { styleLastElement?: string; onDrop: () => void };
 

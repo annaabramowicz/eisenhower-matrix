@@ -1,21 +1,14 @@
-// import { z } from "zod";
+import { getQuartersFromDB } from "./actions/actions";
 import MatrixGrid from "./components/MatrixGrid";
-// import { initialMatrix } from "./context/initialMatrix";
 import { MatrixContextProvider } from "./context/matrixContext";
-// import { mapperTaskApiData } from "./helpers/mapperTaskApiData";
-// import connectDB from "./lib/connectDB";
 
 export default async function Home() {
-  // await connectDB();
-  // const data = await Task.find({});
-  // const newMatrix = mapperTaskApiData(data, initialMatrix);
+  const quarters = await getQuartersFromDB();
 
   return (
     <div className="flex justify-center h-screen">
       <MatrixContextProvider>
-        <MatrixGrid
-        // newMatrix={[newMatrix]}
-        />
+        <MatrixGrid matrix={quarters} />
       </MatrixContextProvider>
     </div>
   );

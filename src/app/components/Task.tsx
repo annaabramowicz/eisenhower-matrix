@@ -1,20 +1,24 @@
 import { TaskType } from "../types/matrixTypes";
-import DropArea from "./DropArea";
+// import DropArea from "./DropArea";
 import { useMatrixContext } from "../context/matrixContext";
-import { useMatrix } from "../hooks/useMatrix";
+// import { useMatrix } from "../hooks/useMatrix";
 import { useRemoveTask } from "../hooks/useRemoveTask";
 
 const Task = ({ positionTaskToMove, quarterTitle }: TaskType) => {
   const { matrix, setActiveTask } = useMatrixContext();
-  const { moveTask } = useMatrix();
+  console.log("🚀 ~ Task ~ matrix:", matrix);
+  // const { moveTask } = useMatrix();
   const { removeTask } = useRemoveTask();
 
-  const matrixQuarter = matrix[quarterTitle];
+  const matrixQuarter = matrix.find((quarter) => {
+    return quarter.quarterTitle === quarterTitle;
+  });
+  console.log("🚀 ~ matrixQuarter ~ matrixQuarter:", matrixQuarter);
   const renderedTask = matrixQuarter?.tasks[positionTaskToMove];
 
   return (
     <>
-      <DropArea onDrop={() => moveTask(quarterTitle, positionTaskToMove)} />
+      {/* <DropArea onDrop={() => moveTask(quarterTitle, positionTaskToMove)} /> */}
       <div
         draggable
         onDragStart={() => {
@@ -25,7 +29,7 @@ const Task = ({ positionTaskToMove, quarterTitle }: TaskType) => {
         }}
         className="px-3 py-0 alert rounded-md justify-items-end"
       >
-        <p className="px-2">{renderedTask?.title}</p>
+        <p className="px-2">{renderedTask?.taskTitle}</p>
 
         <button className="btn btn-circle" onClick={() => removeTask(quarterTitle, positionTaskToMove, true)}>
           <svg

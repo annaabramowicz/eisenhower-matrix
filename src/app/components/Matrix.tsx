@@ -7,14 +7,16 @@ const Matrix = () => {
 
   return (
     <div className="grid grid-cols-2 grid-rows-2 h-full w-full m-auto gap-2">
-      {Object.entries(matrix).map(([quarterTitle, quarterData]) => {
-        const parsedQuarterTitle = quarterTitleSchema.safeParse(quarterTitle);
+      {matrix.map((quarter) => {
+        const parsedQuarterTitle = quarterTitleSchema.safeParse(quarter.quarterTitle);
         if (!parsedQuarterTitle.success) {
-          console.error("Invalid quarterTitle:", quarterTitle);
+          console.error("Invalid quarterTitle:", quarter.quarterTitle);
           return;
         }
 
-        return <Quarter key={quarterTitle} quarterTasks={quarterData} quarterTitle={parsedQuarterTitle.data} />;
+        return (
+          <Quarter key={quarter.quarterTitle} quarterTasks={quarter.tasks} quarterTitle={parsedQuarterTitle.data} />
+        );
       })}
     </div>
   );

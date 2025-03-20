@@ -4,6 +4,13 @@ import connectDB from "../lib/connectDB";
 import Quarter from "../model/quarter";
 import { QuarterTitle } from "../types/matrixTypes";
 
+export async function getQuartersFromDB() {
+  await connectDB();
+  const quarters = await Quarter.find({});
+  const serializedQuarters = JSON.parse(JSON.stringify(quarters));
+  return serializedQuarters;
+}
+
 export async function addTaskToDB(quarterTitle: QuarterTitle, taskTitle: string, taskPosition: number) {
   await connectDB();
   await Quarter.updateOne({ quarterTitle }, { $push: { tasks: { taskTitle: taskTitle, taskPosition: taskPosition } } });
