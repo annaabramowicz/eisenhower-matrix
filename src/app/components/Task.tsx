@@ -1,12 +1,12 @@
 import { TaskType } from "../types/matrixTypes";
-// import DropArea from "./DropArea";
+import DropArea from "./DropArea";
 import { useMatrixContext } from "../context/matrixContext";
-// import { useMatrix } from "../hooks/useMatrix";
+import { useMatrix } from "../hooks/useMatrix";
 import { useRemoveTask } from "../hooks/useRemoveTask";
 
 const Task = ({ positionTaskToMove, quarterTitle }: TaskType) => {
   const { matrix, setActiveTask } = useMatrixContext();
-  // const { moveTask } = useMatrix();
+  const { moveTask } = useMatrix();
   const { removeTask } = useRemoveTask();
 
   const matrixQuarter = matrix.find((quarter) => {
@@ -16,7 +16,7 @@ const Task = ({ positionTaskToMove, quarterTitle }: TaskType) => {
 
   return (
     <>
-      {/* <DropArea onDrop={() => moveTask(quarterTitle, positionTaskToMove)} /> */}
+      <DropArea onDrop={() => moveTask(quarterTitle, positionTaskToMove)} />
       <div
         draggable
         onDragStart={() => {

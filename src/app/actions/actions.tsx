@@ -13,36 +13,37 @@ export async function getQuartersFromDB() {
 
 export async function addTaskToDB(quarterTitle: QuarterTitle, taskTitle: string, taskPosition: number) {
   await connectDB();
-  await Quarter.updateOne({ quarterTitle }, { $push: { tasks: { taskTitle: taskTitle, taskPosition: taskPosition } } });
+  await Quarter.updateOne(
+    { quarterTitle },
+    {
+      $push: {
+        tasks: {
+          $each: [{ taskTitle: taskTitle, taskPosition: taskPosition }],
+          $position: taskPosition,
+        },
+      },
+    }
+  );
 }
 
 export async function removeTaskFromDB(taskPosition: number, quarterTitle: QuarterTitle) {
   await connectDB();
   await Quarter.updateOne({ quarterTitle }, { $pull: { tasks: { taskPosition: taskPosition } } });
-  await Quarter.updateOne(
-    { quarterTitle },
-    { $inc: { "tasks.$[elem].taskPosition": -1 } },
-    { arrayFilters: [{ "elem.taskPosition": { $gt: taskPosition } }] }
-  );
 }
 
-// export async function moveTaskInMatrixDB(
-//   quarterActiveTask: QuarterTitle,
-//   positionActiveTask: number,
-//   quarterTitle: QuarterTitle,
-//   calculatedPosition: number
-// ) {
-//   await connectDB();
-//   await Task.updateMany(
-//     { quarterActiveTask, positionActiveTask: { $gt: positionActiveTask } },
-//     { $inc: { positionActiveTask: -1 } }
-//   );
-//   await Task.updateMany(
-//     { quarterActiveTask: quarterTitle, positionActiveTask: { $gte: calculatedPosition } },
-//     { $inc: { positionActiveTask: 1 } }
-//   );
-//   await Task.updateOne(
-//     { quarterActiveTask, positionActiveTask },
-//     { $set: { quarterActiveTask: quarterTitle, positionActiveTask: calculatedPosition } }
-//   );
-// }
+export async function incrementTaskPositionInDB(quarterTitle: QuarterTitle, taskPosition: number) {
+  await connectDB();
+  await Quarter.updateOne(
+    { quarterTitle },
+    { $inc: { "tasks.$[elem].taskPosition": 1 } },
+    { arrayFilters: [{ "elem.taskPosition": { $gte: taskPosition } }] }
+  );
+}
+export async function decrementTaskPositionInDB(positionActiveTask: number, quarterActiveTask: QuarterTitle) {
+  await connectDB();
+  await Quarter.updateOne(
+    { quarterTitle: quarterActiveTask },
+    { $inc: { "tasks.$[elem].taskPosition": -1 } },
+    { arrayFilters: [{ "elem.taskPosition": { $gt: positionActiveTask } }] }
+  );
+}

@@ -1,4 +1,4 @@
-import { removeTaskFromDB } from "../actions/actions";
+import { decrementTaskPositionInDB, removeTaskFromDB } from "../actions/actions";
 import { useMatrixContext } from "../context/matrixContext";
 import { QuarterTitle } from "../types/matrixTypes";
 
@@ -21,6 +21,7 @@ export const useRemoveTask = () => {
     );
 
     if (removeFromDB) await removeTaskFromDB(positionActiveTask, quarterActiveTask);
+    if (removeFromDB) await decrementTaskPositionInDB(positionActiveTask, quarterActiveTask);
   };
 
   return { removeTask };
