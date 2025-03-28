@@ -40,8 +40,8 @@ export const useMatrix = () => {
     const taskToMove = getTaskByQuarterAndIndex(activeTask.quarterActiveTask, activeTask.positionActiveTask);
     if (!taskToMove) return;
 
-    addTask(titleQuarterToMove, taskToMove, calculatedPosition);
     removeTask(activeTask.quarterActiveTask, activeTask.positionActiveTask);
+    addTask(titleQuarterToMove, taskToMove, calculatedPosition);
 
     removeTaskFromDB(activeTask.positionActiveTask, activeTask.quarterActiveTask);
     decrementTaskPositionInDB(activeTask.positionActiveTask, activeTask.quarterActiveTask);

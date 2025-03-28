@@ -6,19 +6,20 @@ export const useAddTask = () => {
   const { matrix, setMatrix } = useMatrixContext();
 
   const addTask = async (quarterTitle: QuarterTitle, newTask: Task, positionTaskToMove?: number, addToDB?: boolean) => {
-    const quarterToMove = matrix.find((quarter) => {
-      return quarter.quarterTitle === quarterTitle;
-    });
-    const calculatedPosition = positionTaskToMove ?? quarterToMove?.tasks.length;
+    const quarterToMove = matrix.find((quarter) => quarter.quarterTitle === quarterTitle);
+    const calculatedPosition = positionTaskToMove ?? quarterToMove?.tasks.length ?? 0;
 
     setMatrix((prevMatrix) => {
-      const updatedTask = { ...newTask, taskPosition: calculatedPosition };
-      const prev = prevMatrix.map((quarter) =>
-        quarter.quarterTitle === quarterTitle
-          ? { ...quarter, tasks: quarter.tasks.toSpliced(calculatedPosition, 0, updatedTask) }
-          : quarter
-      );
-      return prev;
+      return prevMatrix.map((quarter) => {
+        if (quarter.quarterTitle === quarterTitle) return quarter;
+        const updatedTasks = quarter.tasks.map((task) => ({
+          ...task,
+          taskPosition: task.taskPosition >= calculatedPosition ? task.taskPosition + 1 : task.taskPosition,
+        }));
+        const updatedTask = { ...newTask, taskPosition: calculatedPosition };
+        updatedTasks.splice(calculatedPosition, 0, updatedTask);
+        return { ...quarter, tasks: updatedTasks };
+      });
     });
 
     if (addToDB) await addTaskToDB(quarterTitle, newTask.taskTitle, calculatedPosition);
