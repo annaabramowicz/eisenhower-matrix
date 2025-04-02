@@ -4,6 +4,7 @@ import { QuarterTitle, Task } from "../types/matrixTypes";
 
 export const useAddTask = () => {
   const { matrix, setMatrix } = useMatrixContext();
+  const matrixRollback = matrix;
 
   const addTask = async (quarterTitle: QuarterTitle, newTask: Task, positionTaskToMove?: number, addToDB?: boolean) => {
     const quarterToMove = matrix.find((quarter) => quarter.quarterTitle === quarterTitle);
@@ -22,7 +23,12 @@ export const useAddTask = () => {
       });
     });
 
-    if (addToDB) await addTaskToDB(quarterTitle, newTask.taskTitle, calculatedPosition);
+    try {
+      if (addToDB) await addTaskToDB(quarterTitle, newTask.taskTitle, calculatedPosition);
+    } catch (error) {
+      setMatrix(matrixRollback);
+      console.error("can not add task to DB", error);
+    }
   };
 
   return { addTask };

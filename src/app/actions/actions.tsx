@@ -28,7 +28,9 @@ export async function addTaskToDB(quarterTitle: QuarterTitle, taskTitle: string,
 
 export async function removeTaskFromDB(taskPosition: number, quarterTitle: QuarterTitle) {
   await connectDB();
-  await Quarter.updateOne({ quarterTitle }, { $pull: { tasks: { taskPosition: taskPosition } } });
+  throw new Error("Error establishing a database connection");
+
+  // await Quarter.updateOne({ quarterTitle }, { $pull: { tasks: { taskPosition: taskPosition } } });
 }
 
 export async function incrementTaskPositionInDB(quarterTitle: QuarterTitle, taskPosition: number) {

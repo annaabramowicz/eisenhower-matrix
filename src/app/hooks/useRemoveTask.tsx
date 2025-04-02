@@ -3,7 +3,8 @@ import { useMatrixContext } from "../context/matrixContext";
 import { QuarterTitle } from "../types/matrixTypes";
 
 export const useRemoveTask = () => {
-  const { setMatrix } = useMatrixContext();
+  const { matrix, setMatrix } = useMatrixContext();
+  const matrixRollback = matrix;
 
   const removeTask = async (quarterActiveTask: QuarterTitle, positionActiveTask: number, removeFromDB?: boolean) => {
     setMatrix((prevMatrix) =>
@@ -20,8 +21,13 @@ export const useRemoveTask = () => {
       })
     );
 
-    if (removeFromDB) await removeTaskFromDB(positionActiveTask, quarterActiveTask);
-    if (removeFromDB) await decrementTaskPositionInDB(positionActiveTask, quarterActiveTask);
+    try {
+      if (removeFromDB) await removeTaskFromDB(positionActiveTask, quarterActiveTask);
+      if (removeFromDB) await decrementTaskPositionInDB(positionActiveTask, quarterActiveTask);
+    } catch (error) {
+      setMatrix(matrixRollback);
+      console.error("can not remove task from DB", error);
+    }
   };
 
   return { removeTask };
