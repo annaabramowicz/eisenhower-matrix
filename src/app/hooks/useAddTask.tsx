@@ -4,7 +4,7 @@ import { QuarterTitle, Task } from "../types/matrixTypes";
 
 export const useAddTask = () => {
   const { matrix, setMatrix } = useMatrixContext();
-  const matrixRollback = matrix;
+  const matrixRollback = JSON.parse(JSON.stringify(matrix));
 
   const addTask = async (quarterTitle: QuarterTitle, newTask: Task, positionTaskToMove?: number, addToDB?: boolean) => {
     const quarterToMove = matrix.find((quarter) => quarter.quarterTitle === quarterTitle);

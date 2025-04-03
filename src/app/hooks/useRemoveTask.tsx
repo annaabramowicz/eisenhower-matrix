@@ -4,7 +4,7 @@ import { QuarterTitle } from "../types/matrixTypes";
 
 export const useRemoveTask = () => {
   const { matrix, setMatrix } = useMatrixContext();
-  const matrixRollback = matrix;
+  const matrixRollback = JSON.parse(JSON.stringify(matrix));
 
   const removeTask = async (quarterActiveTask: QuarterTitle, positionActiveTask: number, removeFromDB?: boolean) => {
     setMatrix((prevMatrix) =>
