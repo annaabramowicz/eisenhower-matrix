@@ -28,9 +28,9 @@ export async function addTaskToDB(quarterTitle: QuarterTitle, taskTitle: string,
 
 export async function removeTaskFromDB(taskPosition: number, quarterTitle: QuarterTitle) {
   await connectDB();
-  throw new Error("Error establishing a database connection");
+  // throw new Error("Error establishing a database connection");
 
-  // await Quarter.updateOne({ quarterTitle }, { $pull: { tasks: { taskPosition: taskPosition } } });
+  await Quarter.updateOne({ quarterTitle }, { $pull: { tasks: { taskPosition: taskPosition } } });
 }
 
 export async function incrementTaskPositionInDB(quarterTitle: QuarterTitle, taskPosition: number) {
@@ -41,6 +41,7 @@ export async function incrementTaskPositionInDB(quarterTitle: QuarterTitle, task
     { arrayFilters: [{ "elem.taskPosition": { $gte: taskPosition } }] }
   );
 }
+
 export async function decrementTaskPositionInDB(positionActiveTask: number, quarterActiveTask: QuarterTitle) {
   await connectDB();
   await Quarter.updateOne(
