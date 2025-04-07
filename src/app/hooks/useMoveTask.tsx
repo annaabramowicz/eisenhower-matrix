@@ -1,9 +1,4 @@
-import {
-  addTaskToDB,
-  decrementTaskPositionInDB,
-  incrementTaskPositionInDB,
-  removeTaskFromDB,
-} from "../actions/actions";
+import { moveTaskInDB } from "../actions/actions";
 import { useMatrixContext } from "../context/matrixContext";
 import { calculatePosition } from "../helpers/calculatePositionMovedTask";
 import { QuarterTitle } from "../types/matrixTypes";
@@ -44,11 +39,20 @@ export const useMoveTask = () => {
     removeTask(activeTask.quarterActiveTask, activeTask.positionActiveTask);
     addTask(titleQuarterToMove, taskToMove, calculatedPosition);
 
+    console.log("🚀 ~ moveTask ~ calculatedPosition:", calculatedPosition);
     try {
-      await removeTaskFromDB(activeTask.positionActiveTask, activeTask.quarterActiveTask);
-      await decrementTaskPositionInDB(activeTask.positionActiveTask, activeTask.quarterActiveTask);
-      await incrementTaskPositionInDB(titleQuarterToMove, calculatedPosition);
-      await addTaskToDB(titleQuarterToMove, taskToMove.taskTitle, calculatedPosition);
+      await moveTaskInDB(
+        activeTask.positionActiveTask,
+        titleQuarterToMove,
+        taskToMove.taskTitle,
+        calculatedPosition,
+        activeTask.quarterActiveTask
+      );
+
+      // await removeTaskFromDB(activeTask.positionActiveTask, activeTask.quarterActiveTask);
+      // await decrementTaskPositionInDB(activeTask.positionActiveTask, activeTask.quarterActiveTask);
+      // await incrementTaskPositionInDB(titleQuarterToMove, calculatedPosition);
+      // await addTaskToDB(titleQuarterToMove, taskToMove.taskTitle, calculatedPosition);
     } catch (error) {
       setMatrix(matrixRollback);
       console.error("can not add task to DB", error);
