@@ -1,6 +1,6 @@
 import DropArea from "./DropArea";
 import Task from "./Task";
-import { useMatrix } from "../hooks/useMatrix";
+import { useMoveTask } from "../hooks/useMoveTask";
 import { QuarterTitle, Task as TaskType } from "../types/matrixTypes";
 
 type QuarterTasksProps = {
@@ -9,7 +9,7 @@ type QuarterTasksProps = {
 };
 
 const Quarter = ({ quarterTasks, quarterTitle }: QuarterTasksProps) => {
-  const { moveTask } = useMatrix();
+  const { moveTask } = useMoveTask();
   return (
     <div className="flex flex-col bg-base-300 rounded-md text-center mx-auto w-full max-h-full p-4">
       <h2 className="mb-0">{quarterTitle}</h2>

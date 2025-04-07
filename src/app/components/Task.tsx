@@ -1,12 +1,12 @@
 import { TaskType } from "../types/matrixTypes";
 import DropArea from "./DropArea";
 import { useMatrixContext } from "../context/matrixContext";
-import { useMatrix } from "../hooks/useMatrix";
+import { useMoveTask } from "../hooks/useMoveTask";
 import { useRemoveTask } from "../hooks/useRemoveTask";
 
 const Task = ({ positionTaskToMove, quarterTitle }: TaskType) => {
   const { matrix, setActiveTask } = useMatrixContext();
-  const { moveTask } = useMatrix();
+  const { moveTask } = useMoveTask();
   const { removeTask } = useRemoveTask();
 
   const matrixQuarter = matrix.find((quarter) => {

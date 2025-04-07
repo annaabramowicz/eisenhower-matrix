@@ -10,7 +10,7 @@ import { QuarterTitle } from "../types/matrixTypes";
 import { useAddTask } from "./useAddTask";
 import { useRemoveTask } from "./useRemoveTask";
 
-export const useMatrix = () => {
+export const useMoveTask = () => {
   const { matrix, setMatrix, activeTask } = useMatrixContext();
   const { addTask } = useAddTask();
   const { removeTask } = useRemoveTask();
