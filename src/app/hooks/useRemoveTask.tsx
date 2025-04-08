@@ -1,4 +1,4 @@
-import { decrementTaskPositionInDB, removeTaskFromDB } from "../actions/actions";
+import { removeTaskFromDB } from "../actions/actions";
 import { useMatrixContext } from "../context/matrixContext";
 import { QuarterTitle } from "../types/matrixTypes";
 
@@ -23,7 +23,6 @@ export const useRemoveTask = () => {
 
     try {
       if (removeFromDB) await removeTaskFromDB(positionActiveTask, quarterActiveTask);
-      if (removeFromDB) await decrementTaskPositionInDB(positionActiveTask, quarterActiveTask);
     } catch (error) {
       setMatrix(matrixRollback);
       console.error("can not remove task from DB", error);

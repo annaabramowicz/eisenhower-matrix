@@ -39,7 +39,6 @@ export const useMoveTask = () => {
     removeTask(activeTask.quarterActiveTask, activeTask.positionActiveTask);
     addTask(titleQuarterToMove, taskToMove, calculatedPosition);
 
-    console.log("🚀 ~ moveTask ~ calculatedPosition:", calculatedPosition);
     try {
       await moveTaskInDB(
         activeTask.positionActiveTask,
@@ -48,11 +47,6 @@ export const useMoveTask = () => {
         calculatedPosition,
         activeTask.quarterActiveTask
       );
-
-      // await removeTaskFromDB(activeTask.positionActiveTask, activeTask.quarterActiveTask);
-      // await decrementTaskPositionInDB(activeTask.positionActiveTask, activeTask.quarterActiveTask);
-      // await incrementTaskPositionInDB(titleQuarterToMove, calculatedPosition);
-      // await addTaskToDB(titleQuarterToMove, taskToMove.taskTitle, calculatedPosition);
     } catch (error) {
       setMatrix(matrixRollback);
       console.error("can not add task to DB", error);
