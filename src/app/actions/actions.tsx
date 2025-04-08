@@ -28,12 +28,22 @@ export async function addTaskToDB(quarterTitle: QuarterTitle, taskTitle: string,
 
 export async function removeTaskFromDB(taskPosition: number, quarterTitle: QuarterTitle) {
   await connectDB();
-  await Quarter.updateOne({ quarterTitle }, { $pull: { tasks: { taskPosition: taskPosition } } });
-  await Quarter.updateOne(
-    { quarterTitle },
-    { $inc: { "tasks.$[elem].taskPosition": -1 } },
-    { arrayFilters: [{ "elem.taskPosition": { $gt: taskPosition } }] }
-  );
+  const session = await Quarter.startSession();
+  session.startTransaction();
+  try {
+    await Quarter.updateOne({ quarterTitle }, { $pull: { tasks: { taskPosition: taskPosition } } }, { session });
+    await Quarter.updateOne(
+      { quarterTitle },
+      { $inc: { "tasks.$[elem].taskPosition": -1 } },
+      { arrayFilters: [{ "elem.taskPosition": { $gt: taskPosition } }], session }
+    );
+    await session.commitTransaction();
+  } catch (error) {
+    await session.abortTransaction();
+    throw error;
+  } finally {
+    session.endSession();
+  }
 }
 
 export async function moveTaskInDB(
@@ -44,31 +54,41 @@ export async function moveTaskInDB(
   quarterActiveTask: QuarterTitle
 ) {
   await connectDB();
-  await Quarter.updateOne(
-    { quarterTitle: quarterActiveTask },
-    { $pull: { tasks: { taskPosition: positionActiveTask } } }
-  );
-  await Quarter.updateOne(
-    { quarterTitle: quarterActiveTask },
-    { $inc: { "tasks.$[elem].taskPosition": -1 } },
-    { arrayFilters: [{ "elem.taskPosition": { $gt: positionActiveTask } }] }
-  );
-
-  await Quarter.updateOne(
-    { quarterTitle: targetQuarter },
-    { $inc: { "tasks.$[elem].taskPosition": 1 } },
-    { arrayFilters: [{ "elem.taskPosition": { $gte: calculatedPosition } }] }
-  );
-
-  await Quarter.updateOne(
-    { quarterTitle: targetQuarter },
-    {
-      $push: {
-        tasks: {
-          $each: [{ taskTitle: taskTitle, taskPosition: calculatedPosition }],
-          $position: calculatedPosition,
+  const session = await Quarter.startSession();
+  session.startTransaction();
+  try {
+    await Quarter.updateOne(
+      { quarterTitle: quarterActiveTask },
+      { $pull: { tasks: { taskPosition: positionActiveTask } } },
+      { session }
+    );
+    await Quarter.updateOne(
+      { quarterTitle: quarterActiveTask },
+      { $inc: { "tasks.$[elem].taskPosition": -1 } },
+      { arrayFilters: [{ "elem.taskPosition": { $gt: positionActiveTask } }], session }
+    );
+    await Quarter.updateOne(
+      { quarterTitle: targetQuarter },
+      { $inc: { "tasks.$[elem].taskPosition": 1 } },
+      { arrayFilters: [{ "elem.taskPosition": { $gte: calculatedPosition } }], session }
+    );
+    await Quarter.updateOne(
+      { quarterTitle: targetQuarter },
+      {
+        $push: {
+          tasks: {
+            $each: [{ taskTitle: taskTitle, taskPosition: calculatedPosition }],
+            $position: calculatedPosition,
+          },
         },
       },
-    }
-  );
+      { session }
+    );
+    await session.commitTransaction();
+  } catch (error) {
+    await session.abortTransaction();
+    throw error;
+  } finally {
+    session.endSession();
+  }
 }
