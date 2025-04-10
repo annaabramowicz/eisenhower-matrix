@@ -26,7 +26,7 @@ const AddTaskModal = ({ onClose }: { onClose: () => void }) => {
       return;
     }
 
-    addTask(result.data.quarterTitle, { taskTitle: result.data.taskTitle, taskPosition: 0 }, undefined, true);
+    addTask(result.data.quarterTitle, { taskTitle: result.data.taskTitle, taskPosition: 0 }, undefined);
     onClose();
   };
 

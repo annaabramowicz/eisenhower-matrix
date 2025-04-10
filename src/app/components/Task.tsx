@@ -29,7 +29,7 @@ const Task = ({ positionTaskToMove, quarterTitle }: TaskType) => {
       >
         <p className="px-2">{renderedTask?.taskTitle}</p>
 
-        <button className="btn btn-circle" onClick={() => removeTask(quarterTitle, positionTaskToMove, true)}>
+        <button className="btn btn-circle" onClick={() => removeTask(quarterTitle, positionTaskToMove)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"

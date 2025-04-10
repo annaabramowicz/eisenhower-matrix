@@ -1,14 +1,15 @@
 import { moveTaskInDB } from "../actions/actions";
 import { useMatrixContext } from "../context/matrixContext";
 import { calculatePosition } from "../helpers/calculatePositionMovedTask";
+import { useUpdatedMatrixWithAddedTask } from "./useUpdatedMatrixWithAddedTask";
 import { QuarterTitle } from "../types/matrixTypes";
-import { useAddTask } from "./useAddTask";
-import { useRemoveTask } from "./useRemoveTask";
+import { useUpdatedMatrixWithRemovedTask } from "./useUpdatedMatrixWithRemovedTask";
 
 export const useMoveTask = () => {
   const { matrix, setMatrix, activeTask } = useMatrixContext();
-  const { addTask } = useAddTask();
-  const { removeTask } = useRemoveTask();
+  const { addTaskToContext } = useUpdatedMatrixWithAddedTask();
+  const { removeTaskFromContext } = useUpdatedMatrixWithRemovedTask();
+
   const matrixRollback = JSON.parse(JSON.stringify(matrix));
 
   const getTaskByQuarterAndIndex = (quarterTitle: QuarterTitle, taskIndex: number) => {
@@ -36,8 +37,8 @@ export const useMoveTask = () => {
     const taskToMove = getTaskByQuarterAndIndex(activeTask.quarterActiveTask, activeTask.positionActiveTask);
     if (!taskToMove) return;
 
-    removeTask(activeTask.quarterActiveTask, activeTask.positionActiveTask);
-    addTask(titleQuarterToMove, taskToMove, calculatedPosition);
+    removeTaskFromContext(activeTask.quarterActiveTask, activeTask.positionActiveTask);
+    addTaskToContext(titleQuarterToMove, taskToMove, calculatedPosition);
 
     try {
       await moveTaskInDB(
