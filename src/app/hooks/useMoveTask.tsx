@@ -4,13 +4,14 @@ import { calculatePosition } from "../helpers/calculatePositionMovedTask";
 import { useUpdatedMatrixWithAddedTask } from "./useUpdatedMatrixWithAddedTask";
 import { QuarterTitle } from "../types/matrixTypes";
 import { useUpdatedMatrixWithRemovedTask } from "./useUpdatedMatrixWithRemovedTask";
+import _ from "lodash";
 
 export const useMoveTask = () => {
   const { matrix, setMatrix, activeTask } = useMatrixContext();
   const { addTaskToContext } = useUpdatedMatrixWithAddedTask();
   const { removeTaskFromContext } = useUpdatedMatrixWithRemovedTask();
 
-  const matrixRollback = JSON.parse(JSON.stringify(matrix));
+  const matrixRollback = _.cloneDeep(matrix);
 
   const getTaskByQuarterAndIndex = (quarterTitle: QuarterTitle, taskIndex: number) => {
     const quarter = matrix.find((quarter) => {
