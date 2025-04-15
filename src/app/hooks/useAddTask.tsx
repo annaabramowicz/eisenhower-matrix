@@ -11,7 +11,8 @@ export const useAddTask = () => {
 
   const addTask = async (quarterTitle: QuarterTitle, newTask: Task, positionTaskToMove?: number) => {
     const quarterToMove = matrix.find((quarter) => quarter.quarterTitle === quarterTitle);
-    const calculatedPosition = positionTaskToMove ?? quarterToMove?.tasks.length ?? 0;
+    const tasks = quarterToMove?.tasks ?? [];
+    const calculatedPosition = positionTaskToMove ?? tasks.length;
 
     addTaskToContext(quarterTitle, newTask, calculatedPosition);
 
