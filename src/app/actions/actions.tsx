@@ -19,7 +19,7 @@ export async function addTaskToDB(quarterTitle: QuarterTitle, taskTitle: string,
     {
       $push: {
         tasks: {
-          $each: [{ taskTitle: taskTitle, taskPosition: taskPosition }],
+          $each: [{ taskTitle: taskTitle }],
           $position: taskPosition,
         },
       },
@@ -28,14 +28,7 @@ export async function addTaskToDB(quarterTitle: QuarterTitle, taskTitle: string,
 }
 
 export async function removeTaskFromDB(taskPosition: number, quarterTitle: QuarterTitle) {
-  await withTransaction(async (session) => {
-    await Quarter.updateOne({ quarterTitle }, { $pull: { tasks: { taskPosition: taskPosition } } }, { session });
-    await Quarter.updateOne(
-      { quarterTitle },
-      { $inc: { "tasks.$[elem].taskPosition": -1 } },
-      { arrayFilters: [{ "elem.taskPosition": { $gt: taskPosition } }], session }
-    );
-  });
+  await Quarter.updateOne({ quarterTitle }, { $pull: { tasks: { taskPosition: taskPosition } } });
 }
 
 export async function moveTaskInDB(
@@ -52,21 +45,11 @@ export async function moveTaskInDB(
       { session }
     );
     await Quarter.updateOne(
-      { quarterTitle: quarterActiveTask },
-      { $inc: { "tasks.$[elem].taskPosition": -1 } },
-      { arrayFilters: [{ "elem.taskPosition": { $gt: positionActiveTask } }], session }
-    );
-    await Quarter.updateOne(
-      { quarterTitle: targetQuarter },
-      { $inc: { "tasks.$[elem].taskPosition": 1 } },
-      { arrayFilters: [{ "elem.taskPosition": { $gte: calculatedPosition } }], session }
-    );
-    await Quarter.updateOne(
       { quarterTitle: targetQuarter },
       {
         $push: {
           tasks: {
-            $each: [{ taskTitle: taskTitle, taskPosition: calculatedPosition }],
+            $each: [{ taskTitle: taskTitle }],
             $position: calculatedPosition,
           },
         },

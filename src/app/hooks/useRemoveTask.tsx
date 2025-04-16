@@ -9,15 +9,15 @@ export const useRemoveTask = () => {
   const { removeTaskFromContext } = useUpdatedMatrixWithRemovedTask();
   const matrixRollback = _.cloneDeep(matrix);
 
-  const removeTask = async (quarterActiveTask: QuarterTitle, positionActiveTask: number) => {
-    removeTaskFromContext(quarterActiveTask, positionActiveTask);
+  const removeTask = async (quarterTitle: QuarterTitle, taskID: number) => {
+    removeTaskFromContext(quarterTitle, taskID);
 
-    try {
-      await removeTaskFromDB(positionActiveTask, quarterActiveTask);
-    } catch (error) {
-      setMatrix(matrixRollback);
-      console.error("can not remove task from DB", error);
-    }
+    // try {
+    //   await removeTaskFromDB(positionActiveTask, quarterTitle);
+    // } catch (error) {
+    //   setMatrix(matrixRollback);
+    //   console.error("can not remove task from DB", error);
+    // }
   };
 
   return { removeTask };

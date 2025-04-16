@@ -14,7 +14,7 @@ const Quarter = ({ quarterTasks, quarterTitle }: QuarterTasksProps) => {
     <div className="flex flex-col bg-base-300 rounded-md text-center mx-auto w-full max-h-full p-4">
       <h2 className="mb-0">{quarterTitle}</h2>
       {quarterTasks.map((task, index) => {
-        return <Task key={index} positionTaskToMove={task.taskPosition} quarterTitle={quarterTitle} />;
+        return <Task key={index} quarterTitle={quarterTitle} task={task} />;
       })}
       <DropArea styleLastElement={"grow"} onDrop={() => moveTask(quarterTitle)} />
     </div>

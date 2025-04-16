@@ -4,15 +4,10 @@ import { useMatrixContext } from "../context/matrixContext";
 import { useMoveTask } from "../hooks/useMoveTask";
 import { useRemoveTask } from "../hooks/useRemoveTask";
 
-const Task = ({ positionTaskToMove, quarterTitle }: TaskType) => {
-  const { matrix, setActiveTask } = useMatrixContext();
+const Task = ({ quarterTitle, task }: TaskType) => {
+  const { setActiveTask } = useMatrixContext();
   const { moveTask } = useMoveTask();
   const { removeTask } = useRemoveTask();
-
-  const matrixQuarter = matrix.find((quarter) => {
-    return quarter.quarterTitle === quarterTitle;
-  });
-  const renderedTask = matrixQuarter?.tasks[positionTaskToMove];
 
   return (
     <>
@@ -27,9 +22,9 @@ const Task = ({ positionTaskToMove, quarterTitle }: TaskType) => {
         }}
         className="px-3 py-0 alert rounded-md justify-items-end"
       >
-        <p className="px-2">{renderedTask?.taskTitle}</p>
+        <p className="px-2">{task.taskTitle}</p>
 
-        <button className="btn btn-circle" onClick={() => removeTask(quarterTitle, positionTaskToMove)}>
+        <button className="btn btn-circle" onClick={() => removeTask(quarterTitle, task._id)}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"

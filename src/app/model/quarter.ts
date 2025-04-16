@@ -5,10 +5,6 @@ const TaskSchema = new Schema({
     type: String,
     required: true,
   },
-  taskPosition: {
-    type: Number,
-    required: true,
-  },
 });
 
 const QuarterSchema = new Schema({

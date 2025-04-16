@@ -1,4 +1,4 @@
-export type Task = { taskTitle: string; taskPosition: number };
+export type Task = { taskTitle: string; _id: number };
 
 export type QuarterTitle = "DO FIRST" | "SCHEDULE" | "DELEGATE" | "DELETE";
 
@@ -14,8 +14,8 @@ export type Matrix = Quarter[];
 export type OnDropType = { styleLastElement?: string; onDrop: () => void };
 
 export type TaskType = {
-  positionTaskToMove: number;
   quarterTitle: QuarterTitle;
+  task: Task;
 };
 
 export type MatrixContextType = {
