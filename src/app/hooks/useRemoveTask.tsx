@@ -12,12 +12,12 @@ export const useRemoveTask = () => {
   const removeTask = async (quarterTitle: QuarterTitle, taskID: number) => {
     removeTaskFromContext(quarterTitle, taskID);
 
-    // try {
-    //   await removeTaskFromDB(positionActiveTask, quarterTitle);
-    // } catch (error) {
-    //   setMatrix(matrixRollback);
-    //   console.error("can not remove task from DB", error);
-    // }
+    try {
+      await removeTaskFromDB(quarterTitle, taskID);
+    } catch (error) {
+      setMatrix(matrixRollback);
+      console.error("can not remove task from DB", error);
+    }
   };
 
   return { removeTask };

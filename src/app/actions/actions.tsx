@@ -27,8 +27,8 @@ export async function addTaskToDB(quarterTitle: QuarterTitle, taskTitle: string,
   );
 }
 
-export async function removeTaskFromDB(taskPosition: number, quarterTitle: QuarterTitle) {
-  await Quarter.updateOne({ quarterTitle }, { $pull: { tasks: { taskPosition: taskPosition } } });
+export async function removeTaskFromDB(quarterTitle: QuarterTitle, taskID: number) {
+  await Quarter.updateOne({ quarterTitle }, { $pull: { tasks: { _id: taskID } } });
 }
 
 export async function moveTaskInDB(
