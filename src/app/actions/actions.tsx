@@ -1,18 +1,19 @@
 "use server";
 
+import { withTransaction } from "../helpers/withTransaction";
 import connectDB from "../lib/connectDB";
 import Quarter from "../model/quarter";
 import { QuarterTitle } from "../types/matrixTypes";
 
+await connectDB();
+
 export async function getQuartersFromDB() {
-  await connectDB();
   const quarters = await Quarter.find({});
   const serializedQuarters = JSON.parse(JSON.stringify(quarters));
   return serializedQuarters;
 }
 
 export async function addTaskToDB(quarterTitle: QuarterTitle, taskTitle: string, taskPosition: number) {
-  await connectDB();
   await Quarter.updateOne(
     { quarterTitle },
     {
@@ -27,23 +28,14 @@ export async function addTaskToDB(quarterTitle: QuarterTitle, taskTitle: string,
 }
 
 export async function removeTaskFromDB(taskPosition: number, quarterTitle: QuarterTitle) {
-  await connectDB();
-  const session = await Quarter.startSession();
-  session.startTransaction();
-  try {
+  await withTransaction(async (session) => {
     await Quarter.updateOne({ quarterTitle }, { $pull: { tasks: { taskPosition: taskPosition } } }, { session });
     await Quarter.updateOne(
       { quarterTitle },
       { $inc: { "tasks.$[elem].taskPosition": -1 } },
       { arrayFilters: [{ "elem.taskPosition": { $gt: taskPosition } }], session }
     );
-    await session.commitTransaction();
-  } catch (error) {
-    await session.abortTransaction();
-    throw error;
-  } finally {
-    session.endSession();
-  }
+  });
 }
 
 export async function moveTaskInDB(
@@ -53,10 +45,7 @@ export async function moveTaskInDB(
   calculatedPosition: number,
   quarterActiveTask: QuarterTitle
 ) {
-  await connectDB();
-  const session = await Quarter.startSession();
-  session.startTransaction();
-  try {
+  await withTransaction(async (session) => {
     await Quarter.updateOne(
       { quarterTitle: quarterActiveTask },
       { $pull: { tasks: { taskPosition: positionActiveTask } } },
@@ -84,11 +73,5 @@ export async function moveTaskInDB(
       },
       { session }
     );
-    await session.commitTransaction();
-  } catch (error) {
-    await session.abortTransaction();
-    throw error;
-  } finally {
-    session.endSession();
-  }
+  });
 }
