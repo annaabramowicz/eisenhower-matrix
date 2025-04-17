@@ -9,7 +9,7 @@ export const useRemoveTask = () => {
   const { removeTaskFromContext } = useUpdatedMatrixWithRemovedTask();
   const matrixRollback = _.cloneDeep(matrix);
 
-  const removeTask = async (quarterTitle: QuarterTitle, taskID: number) => {
+  const removeTask = async (quarterTitle: QuarterTitle, taskID: string) => {
     removeTaskFromContext(quarterTitle, taskID);
 
     try {

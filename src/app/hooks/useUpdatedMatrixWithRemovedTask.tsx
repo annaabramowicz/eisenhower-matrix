@@ -4,7 +4,7 @@ import { QuarterTitle } from "../types/matrixTypes";
 export const useUpdatedMatrixWithRemovedTask = () => {
   const { setMatrix } = useMatrixContext();
 
-  const removeTaskFromContext = (quarterTitle: QuarterTitle, taskIdToRemove: number) => {
+  const removeTaskFromContext = (quarterTitle: QuarterTitle, taskIdToRemove: string) => {
     setMatrix((prevMatrix) =>
       prevMatrix.map((quarter) => {
         if (quarter.quarterTitle === quarterTitle) {

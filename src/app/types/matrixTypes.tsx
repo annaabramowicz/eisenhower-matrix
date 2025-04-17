@@ -1,11 +1,11 @@
-export type Task = { taskTitle: string; _id: number };
+export type Task = { taskTitle: string; _id: string };
 
 export type QuarterTitle = "DO FIRST" | "SCHEDULE" | "DELEGATE" | "DELETE";
 
 export type QuarterTasks = { tasks: Task[] };
 
 export type Quarter = {
-  _id: number;
+  _id: string;
   quarterTitle: QuarterTitle;
   tasks: Task[];
 };
