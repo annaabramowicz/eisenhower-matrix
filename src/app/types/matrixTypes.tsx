@@ -5,6 +5,7 @@ export type QuarterTitle = "DO FIRST" | "SCHEDULE" | "DELEGATE" | "DELETE";
 export type QuarterTasks = { tasks: Task[] };
 
 export type Quarter = {
+  _id: number;
   quarterTitle: QuarterTitle;
   tasks: Task[];
 };
@@ -16,6 +17,7 @@ export type OnDropType = { styleLastElement?: string; onDrop: () => void };
 export type TaskType = {
   quarterTitle: QuarterTitle;
   task: Task;
+  dropIndex: number;
 };
 
 export type MatrixContextType = {

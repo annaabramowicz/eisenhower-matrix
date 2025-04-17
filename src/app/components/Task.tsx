@@ -4,19 +4,19 @@ import { useMatrixContext } from "../context/matrixContext";
 import { useMoveTask } from "../hooks/useMoveTask";
 import { useRemoveTask } from "../hooks/useRemoveTask";
 
-const Task = ({ quarterTitle, task }: TaskType) => {
+const Task = ({ quarterTitle, task, dropIndex }: TaskType) => {
   const { setActiveTask } = useMatrixContext();
   const { moveTask } = useMoveTask();
   const { removeTask } = useRemoveTask();
 
   return (
     <>
-      <DropArea onDrop={() => moveTask(quarterTitle, positionTaskToMove)} />
+      <DropArea onDrop={() => moveTask(quarterTitle, dropIndex)} />
       <div
         draggable
         onDragStart={() => {
           setActiveTask({
-            positionActiveTask: positionTaskToMove,
+            positionActiveTask: dropIndex,
             quarterActiveTask: quarterTitle,
           });
         }}

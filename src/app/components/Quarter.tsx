@@ -1,22 +1,18 @@
 import DropArea from "./DropArea";
 import Task from "./Task";
 import { useMoveTask } from "../hooks/useMoveTask";
-import { QuarterTitle, Task as TaskType } from "../types/matrixTypes";
+import { Quarter as QuarterProps } from "../types/matrixTypes";
 
-type QuarterTasksProps = {
-  quarterTasks: TaskType[];
-  quarterTitle: QuarterTitle;
-};
-
-const Quarter = ({ quarterTasks, quarterTitle }: QuarterTasksProps) => {
+const Quarter = ({ quarter }: { quarter: QuarterProps }) => {
   const { moveTask } = useMoveTask();
+  const { quarterTitle, tasks } = quarter;
   return (
     <div className="flex flex-col bg-base-300 rounded-md text-center mx-auto w-full max-h-full p-4">
       <h2 className="mb-0">{quarterTitle}</h2>
-      {quarterTasks.map((task, index) => {
-        return <Task key={index} quarterTitle={quarterTitle} task={task} />;
+      {tasks.map((task, index) => {
+        return <Task key={task._id} quarterTitle={quarterTitle} task={task} dropIndex={index} />;
       })}
-      <DropArea styleLastElement={"grow"} onDrop={() => moveTask(quarterTitle)} />
+      <DropArea styleLastElement={"grow"} onDrop={() => moveTask(quarterTitle, tasks.length)} />
     </div>
   );
 };

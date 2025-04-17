@@ -3,7 +3,7 @@
 import { withTransaction } from "../helpers/withTransaction";
 import connectDB from "../lib/connectDB";
 import Quarter from "../model/quarter";
-import { QuarterTitle } from "../types/matrixTypes";
+import { QuarterTitle, Task } from "../types/matrixTypes";
 
 await connectDB();
 
@@ -32,24 +32,19 @@ export async function removeTaskFromDB(quarterTitle: QuarterTitle, taskID: numbe
 }
 
 export async function moveTaskInDB(
-  positionActiveTask: number,
   targetQuarter: string,
-  taskTitle: string,
+  task: Task,
   calculatedPosition: number,
   quarterActiveTask: QuarterTitle
 ) {
   await withTransaction(async (session) => {
-    await Quarter.updateOne(
-      { quarterTitle: quarterActiveTask },
-      { $pull: { tasks: { taskPosition: positionActiveTask } } },
-      { session }
-    );
+    await Quarter.updateOne({ quarterTitle: quarterActiveTask }, { $pull: { tasks: { _id: task._id } } }, { session });
     await Quarter.updateOne(
       { quarterTitle: targetQuarter },
       {
         $push: {
           tasks: {
-            $each: [{ taskTitle: taskTitle }],
+            $each: [{ taskTitle: task.taskTitle }],
             $position: calculatedPosition,
           },
         },
