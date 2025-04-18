@@ -13,21 +13,21 @@ const MatrixContext = createContext<MatrixContextType | null>(null);
 export const MatrixContextProvider = ({ children }: MatrixContextProvider) => {
   const [matrix, setMatrix] = useState(initialMatrix);
 
-  const [activeTask, setActiveTask] = useState<{
-    positionActiveTask: null | number;
-    quarterActiveTask: null | QuarterTitle;
+  const [grabTask, setGrabTask] = useState<{
+    sourceTaskIndex: null | number;
+    sourceQuarterTitle: null | QuarterTitle;
   }>({
-    positionActiveTask: null,
-    quarterActiveTask: null,
+    sourceTaskIndex: null,
+    sourceQuarterTitle: null,
   });
 
   return (
     <MatrixContext.Provider
       value={{
         matrix,
-        activeTask,
+        grabTask,
         setMatrix,
-        setActiveTask,
+        setGrabTask,
       }}
     >
       {children}

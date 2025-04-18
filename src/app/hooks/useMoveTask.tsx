@@ -6,30 +6,29 @@ import { useUpdatedMatrixWithRemovedTask } from "./useUpdatedMatrixWithRemovedTa
 import _ from "lodash";
 
 export const useMoveTask = () => {
-  const { matrix, setMatrix, activeTask } = useMatrixContext();
+  const { matrix, setMatrix, grabTask } = useMatrixContext();
   const { addTaskToContext } = useUpdatedMatrixWithAddedTask();
   const { removeTaskFromContext } = useUpdatedMatrixWithRemovedTask();
 
   const matrixRollback = _.cloneDeep(matrix);
 
-  const getTaskByQuarterAndIndex = (quarterTitle: QuarterTitle, taskIndex: number) => {
+  const findTaskByQuarterAndIndex = (sourceQuarterTitle: QuarterTitle, sourceTaskIndex: number) => {
     const quarter = matrix.find((quarter) => {
-      return quarter.quarterTitle === quarterTitle;
+      return quarter.quarterTitle === sourceQuarterTitle;
     });
-    return quarter?.tasks[taskIndex];
+    return quarter?.tasks[sourceTaskIndex];
   };
 
-  const moveTask = async (titleQuarterToMove: QuarterTitle, dropIndex: number) => {
-    if (activeTask.quarterActiveTask === null || activeTask.positionActiveTask === null) return;
-
-    const taskToMove = getTaskByQuarterAndIndex(activeTask.quarterActiveTask, activeTask.positionActiveTask);
+  const moveTask = async (sourceTitleQuarter: QuarterTitle, targetTaskIndex: number) => {
+    if (grabTask.sourceQuarterTitle === null || grabTask.sourceTaskIndex === null) return;
+    const taskToMove = findTaskByQuarterAndIndex(grabTask.sourceQuarterTitle, grabTask.sourceTaskIndex);
     if (!taskToMove) return;
 
-    removeTaskFromContext(activeTask.quarterActiveTask, taskToMove._id);
-    addTaskToContext(titleQuarterToMove, taskToMove, dropIndex);
+    removeTaskFromContext(grabTask.sourceQuarterTitle, taskToMove._id);
+    addTaskToContext(sourceTitleQuarter, taskToMove, targetTaskIndex);
 
     try {
-      await moveTaskInDB(titleQuarterToMove, taskToMove, dropIndex, activeTask.quarterActiveTask);
+      await moveTaskInDB(sourceTitleQuarter, taskToMove, targetTaskIndex, grabTask.sourceQuarterTitle);
     } catch (error) {
       setMatrix(matrixRollback);
       console.error("can not add task to DB", error);

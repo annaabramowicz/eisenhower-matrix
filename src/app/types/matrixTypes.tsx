@@ -17,20 +17,20 @@ export type OnDropType = { styleLastElement?: string; onDrop: () => void };
 export type TaskType = {
   quarterTitle: QuarterTitle;
   task: Task;
-  dropIndex: number;
+  sourceTaskIndex: number;
 };
 
 export type MatrixContextType = {
   matrix: Matrix;
   setMatrix: React.Dispatch<React.SetStateAction<Matrix>>;
-  activeTask: {
-    positionActiveTask: null | number;
-    quarterActiveTask: null | QuarterTitle;
+  grabTask: {
+    sourceTaskIndex: null | number;
+    sourceQuarterTitle: null | QuarterTitle;
   };
-  setActiveTask: React.Dispatch<
+  setGrabTask: React.Dispatch<
     React.SetStateAction<{
-      positionActiveTask: null | number;
-      quarterActiveTask: null | QuarterTitle;
+      sourceTaskIndex: null | number;
+      sourceQuarterTitle: null | QuarterTitle;
     }>
   >;
 };

@@ -4,13 +4,13 @@ import { QuarterTitle, Task } from "../types/matrixTypes";
 export const useUpdatedMatrixWithAddedTask = () => {
   const { setMatrix } = useMatrixContext();
 
-  const addTaskToContext = (quarterTitle: QuarterTitle, newTask: Task, taskIndex: number) => {
+  const addTaskToContext = (targetQuarterTitle: QuarterTitle, newTask: Task, targetTaskIndex: number) => {
     setMatrix((prevMatrix) => {
       return prevMatrix.map((quarter) => {
-        if (quarter.quarterTitle !== quarterTitle) return quarter;
+        if (quarter.quarterTitle !== targetQuarterTitle) return quarter;
 
         const updatedTasks = [...quarter.tasks];
-        updatedTasks.splice(taskIndex, 0, newTask);
+        updatedTasks.splice(targetTaskIndex, 0, newTask);
 
         return { ...quarter, tasks: updatedTasks };
       });

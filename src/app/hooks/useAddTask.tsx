@@ -9,15 +9,15 @@ export const useAddTask = () => {
   const { addTaskToContext } = useUpdatedMatrixWithAddedTask();
   const matrixRollback = _.cloneDeep(matrix);
 
-  const addTask = async (quarterTitle: QuarterTitle, task: Task, dropIndex?: number) => {
-    const quarterToMove = matrix.find((quarter) => quarter.quarterTitle === quarterTitle);
-    const tasks = quarterToMove?.tasks ?? [];
-    const calculatedPosition = dropIndex ?? tasks.length;
+  const addTask = async (sourceTitleQuarter: QuarterTitle, newTask: Task, targetTaskIndex?: number) => {
+    const quarterToMove = matrix.find((quarter) => quarter.quarterTitle === sourceTitleQuarter);
+    const sourceTasks = quarterToMove?.tasks ?? [];
+    const calculatedTargetTaskIndex = targetTaskIndex ?? sourceTasks.length;
 
-    addTaskToContext(quarterTitle, task, calculatedPosition);
+    addTaskToContext(sourceTitleQuarter, newTask, calculatedTargetTaskIndex);
 
     try {
-      await addTaskToDB(quarterTitle, task.taskTitle, calculatedPosition);
+      await addTaskToDB(sourceTitleQuarter, newTask.taskTitle, calculatedTargetTaskIndex);
     } catch (error) {
       setMatrix(matrixRollback);
       console.error("can not add task to DB", error);

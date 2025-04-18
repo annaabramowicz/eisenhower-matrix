@@ -4,20 +4,21 @@ import { useMatrixContext } from "../context/matrixContext";
 import { useMoveTask } from "../hooks/useMoveTask";
 import { useRemoveTask } from "../hooks/useRemoveTask";
 
-const Task = ({ quarterTitle, task, dropIndex }: TaskType) => {
-  const { setActiveTask } = useMatrixContext();
+const Task = ({ quarterTitle, task, sourceTaskIndex }: TaskType) => {
+  const { setGrabTask } = useMatrixContext();
   const { moveTask } = useMoveTask();
   const { removeTask } = useRemoveTask();
+  console.log("🚀 ~ Task ~ quarterTitle:", quarterTitle);
 
   return (
     <>
-      <DropArea onDrop={() => moveTask(quarterTitle, dropIndex)} />
+      <DropArea onDrop={() => moveTask(quarterTitle, sourceTaskIndex)} />
       <div
         draggable
         onDragStart={() => {
-          setActiveTask({
-            positionActiveTask: dropIndex,
-            quarterActiveTask: quarterTitle,
+          setGrabTask({
+            sourceTaskIndex: sourceTaskIndex,
+            sourceQuarterTitle: quarterTitle,
           });
         }}
         className="px-3 py-0 alert rounded-md justify-items-end"
