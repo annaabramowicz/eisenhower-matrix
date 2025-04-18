@@ -9,10 +9,10 @@ export const useAddTask = () => {
   const { addTaskToContext } = useUpdatedMatrixWithAddedTask();
   const matrixRollback = _.cloneDeep(matrix);
 
-  const addTask = async (quarterTitle: QuarterTitle, task: Task, positionTaskToMove?: number) => {
+  const addTask = async (quarterTitle: QuarterTitle, task: Task, dropIndex?: number) => {
     const quarterToMove = matrix.find((quarter) => quarter.quarterTitle === quarterTitle);
     const tasks = quarterToMove?.tasks ?? [];
-    const calculatedPosition = positionTaskToMove ?? tasks.length;
+    const calculatedPosition = dropIndex ?? tasks.length;
 
     addTaskToContext(quarterTitle, task, calculatedPosition);
 
