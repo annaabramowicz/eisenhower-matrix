@@ -1,17 +1,19 @@
 import mongoose from "mongoose";
 
-export const withTransaction = async <T>(fn: (session: mongoose.ClientSession) => Promise<T>): Promise<T> => {
-  const session = await mongoose.startSession();
-  session.startTransaction();
+export const withTransaction = async <Result>(
+  query: (session: mongoose.ClientSession) => Promise<Result>
+): Promise<Result> => {
+  const transaction = await mongoose.startSession();
+  transaction.startTransaction();
 
   try {
-    const result = await fn(session);
-    await session.commitTransaction();
+    const result = await query(transaction);
+    await transaction.commitTransaction();
     return result;
   } catch (error) {
-    await session.abortTransaction();
+    await transaction.abortTransaction();
     throw error;
   } finally {
-    session.endSession();
+    transaction.endSession();
   }
 };

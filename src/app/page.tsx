@@ -1,9 +1,9 @@
-import { getQuartersFromDB } from "./actions/actions";
+import { getQuartersAction } from "./actions/actions";
 import MatrixGrid from "./components/MatrixGrid";
 import { MatrixContextProvider } from "./context/matrixContext";
 
 export default async function Home() {
-  const quarters = await getQuartersFromDB();
+  const quarters = await getQuartersAction();
 
   return (
     <div className="flex justify-center h-screen">

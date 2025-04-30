@@ -1,5 +1,7 @@
 export type Task = { taskTitle: string; _id: string };
 
+export type NewTaskWithoutID = Omit<Task, "_id">;
+
 export type QuarterTitle = "DO FIRST" | "SCHEDULE" | "DELEGATE" | "DELETE";
 
 export type QuarterTasks = { tasks: Task[] };

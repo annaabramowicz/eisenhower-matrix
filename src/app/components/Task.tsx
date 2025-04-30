@@ -8,7 +8,6 @@ const Task = ({ quarterTitle, task, sourceTaskIndex }: TaskType) => {
   const { setGrabTask } = useMatrixContext();
   const { moveTask } = useMoveTask();
   const { removeTask } = useRemoveTask();
-  console.log("🚀 ~ Task ~ quarterTitle:", quarterTitle);
 
   return (
     <>

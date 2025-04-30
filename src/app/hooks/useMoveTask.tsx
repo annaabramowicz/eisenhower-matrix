@@ -1,4 +1,4 @@
-import { moveTaskInDB } from "../actions/actions";
+import { moveTaskAction } from "../actions/actions";
 import { useMatrixContext } from "../context/matrixContext";
 import { useUpdatedMatrixWithAddedTask } from "./useUpdatedMatrixWithAddedTask";
 import { QuarterTitle } from "../types/matrixTypes";
@@ -28,7 +28,7 @@ export const useMoveTask = () => {
     addTaskToContext(sourceTitleQuarter, taskToMove, targetTaskIndex);
 
     try {
-      await moveTaskInDB(sourceTitleQuarter, taskToMove, targetTaskIndex, grabTask.sourceQuarterTitle);
+      await moveTaskAction(sourceTitleQuarter, taskToMove, targetTaskIndex, grabTask.sourceQuarterTitle);
     } catch (error) {
       setMatrix(matrixRollback);
       console.error("can not add task to DB", error);
